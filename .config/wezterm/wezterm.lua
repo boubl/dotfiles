@@ -2,19 +2,26 @@ local wezterm = require("wezterm")
 
 require("status_line")
 
-return {
+local config = {}
 
-	font = wezterm.font("mononoki"),
-	font_size = 16.0,
+config.font = wezterm.font("mononoki")
+config.font_size = 24.0
 
-	use_fancy_tab_bar = false,
-	hide_tab_bar_if_only_one_tab = false,
-	show_new_tab_button_in_tab_bar = false,
-	show_tab_index_in_tab_bar = false,
-	tab_bar_at_bottom = false,
+config.use_fancy_tab_bar = false
+config.hide_tab_bar_if_only_one_tab = false
+config.show_new_tab_button_in_tab_bar = false
+config.show_tab_index_in_tab_bar = false
+config.tab_bar_at_bottom = false
 
-	use_resize_increments = true,
-	window_decorations = "RESIZE",
+config.use_resize_increments = true
+config.window_decorations = "RESIZE"
 
-	color_scheme = "Catppuccin Mocha",
-}
+config.color_scheme = "Catppuccin Mocha"
+
+if wezterm.target_triple == "aarch64-unknown-linux-gnu" then
+	-- config.enable_wayland = false
+	config.enable_tab_bar = false
+	config.window_decorations = "NONE"
+end
+
+return config

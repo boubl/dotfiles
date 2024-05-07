@@ -586,6 +586,11 @@ require('lazy').setup {
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
       })
+
+      vim.list_extend(servers, {
+        clangd = {}, -- Workaround to not install clangd automatically
+      })
+
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
@@ -600,6 +605,9 @@ require('lazy').setup {
           end,
         },
       }
+
+      -- Enable clangd manually
+      require('lspconfig')['clangd'].setup {}
     end,
   },
 
