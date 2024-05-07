@@ -1,0 +1,6 @@
+import = [
+	"~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[font]
+normal = { family = "mononoki", style = "Regular" }

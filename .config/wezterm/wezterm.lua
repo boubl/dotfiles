@@ -5,7 +5,7 @@ require("status_line")
 local config = {}
 
 config.font = wezterm.font("mononoki")
-config.font_size = 24.0
+config.font_size = 16.0
 
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = false
