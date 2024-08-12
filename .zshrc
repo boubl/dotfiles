@@ -4,7 +4,6 @@ OS=$(uname -s)
 
 # ==== zsh and omz ==== #
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
 plugins=(
 	git
 	ripgrep
@@ -15,14 +14,21 @@ plugins=(
 	command-not-found
 	zsh-autosuggestions
 	zsh-syntax-highlighting
+	zsh-history-substring-search
+	eza
 )
 source $ZSH/oh-my-zsh.sh
+
+GEOMETRY_STATUS_SYMBOL="🍌"             # default prompt symbol
+
+source /opt/homebrew/opt/geometry/share/geometry/geometry.zsh
 
 # ==== things to sort ==== #
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 . "$HOME/.cargo/env"
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:/home/boubli/.local/bin
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # ==== macOS related configuration ==== #
 if [[ $OS = Darwin ]]; then
@@ -49,11 +55,13 @@ if [[ $OS = Darwin ]]; then
 	export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 fi
 
+# ==== Cursor moves ==== #
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word
 
 
 # ==== Aliases ==== #
 alias vim='nvim'
-alias ls='lsd'
 alias python='python3'
 alias pip='pip3'
 

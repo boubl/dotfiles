@@ -4,7 +4,7 @@ require("status_line")
 
 local config = {}
 
-config.font = wezterm.font("mononoki")
+config.font = wezterm.font("Fantasque Sans Mono")
 config.font_size = 16.0
 
 config.use_fancy_tab_bar = false
@@ -13,10 +13,14 @@ config.show_new_tab_button_in_tab_bar = false
 config.show_tab_index_in_tab_bar = false
 config.tab_bar_at_bottom = false
 
-config.use_resize_increments = true
-config.window_decorations = "RESIZE"
+config.send_composed_key_when_left_alt_is_pressed = true
+config.send_composed_key_when_right_alt_is_pressed = false
 
-config.color_scheme = "Catppuccin Mocha"
+config.use_resize_increments = true
+config.window_decorations = "TITLE | RESIZE"
+
+config.color_scheme = "GruvboxDark"
+print(config.window_frame)
 
 if wezterm.target_triple == "aarch64-unknown-linux-gnu" then
 	-- config.enable_wayland = false

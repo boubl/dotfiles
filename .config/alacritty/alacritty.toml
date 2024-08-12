@@ -4,3 +4,4 @@ import = [
 
 [font]
 normal = { family = "mononoki", style = "Regular" }
+size = 16.0
