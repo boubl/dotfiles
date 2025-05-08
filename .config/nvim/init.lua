@@ -21,7 +21,7 @@ vim.g.maplocalleader = ' '
 vim.opt.number = true
 -- You can also add relative line numbers, for help with jumping.
 --  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -105,10 +105,6 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
-vim.keymap.set('n', '<leader>b', function()
-  vim.api.nvim_buf_delete(0, {})
-end, { desc = 'Close current buffer' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -244,12 +240,17 @@ require('lazy').setup {
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+      require('which-key').add {
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>c_', hidden = true },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>d_', hidden = true },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>r_', hidden = true },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>s_', hidden = true },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>w_', hidden = true },
       }
     end,
   },
@@ -384,35 +385,23 @@ require('lazy').setup {
       { 'j-hui/fidget.nvim', opts = {} },
     },
     config = function()
-      -- Brief Aside: **What is LSP?**
-      --
-      -- LSP is an acronym you've probably heard, but might not understand what it is.
-      --
-      -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-      -- and language tooling communicate in a standardized fashion.
-      --
-      -- In general, you have a "server" which is some tool built to understand a particular
-      -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc). These Language Servers
-      -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-      -- processes that communicate with some "client" - in this case, Neovim!
-      --
-      -- LSP provides Neovim with features like:
-      --  - Go to definition
-      --  - Find references
-      --  - Autocompletion
-      --  - Symbol Search
-      --  - and more!
-      --
-      -- Thus, Language Servers are external tools that must be installed separately from
-      -- Neovim. This is where `mason` and related plugins come into play.
-      --
-      -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-      -- and elegantly composed help section, `:help lsp-vs-treesitter`
+      -- ZLS CONFIG
+      -- enable  format-on-save from nvim-lspconfig + ZLS
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        pattern = { '*.zig', '*.zon' },
+        callback = function(ev)
+          vim.lsp.buf.format()
+        end,
+      })
+      local lspconfig = require 'lspconfig'
+      lspconfig.zls.setup {
+        settings = {
+          zls = {
+            enable_build_on_save = true,
+          },
+        },
+      }
 
-      --  This function gets run when an LSP attaches to a particular buffer.
-      --    That is to say, every time a new file is opened that is associated with
-      --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
-      --    function will be executed to configure the current buffer
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -487,36 +476,11 @@ require('lazy').setup {
         end,
       })
 
-      -- LSP servers and clients are able to communicate to each other what features they support.
-      --  By default, Neovim doesn't support everything that is in the LSP Specification.
-      --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-      -- Enable the following language servers
-      --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-      --
-      --  Add any additional override configuration in the following tables. Available keys are:
-      --  - cmd (table): Override the default command used to start the server
-      --  - filetypes (table): Override the default list of associated filetypes for the server
-      --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-      --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
-        --
-
         lua_ls = {
           -- cmd = {...},
           filetypes = { 'lua', 'p8' },
@@ -589,14 +553,9 @@ require('lazy').setup {
         timeout_ms = 500,
         lsp_fallback = true,
       },
+      formatters = {},
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
       },
     },
   },
@@ -617,6 +576,14 @@ require('lazy').setup {
           end
           return 'make install_jsregexp'
         end)(),
+        dependencies = {
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
+        },
       },
       'saadparwaiz1/cmp_luasnip',
 
@@ -625,6 +592,7 @@ require('lazy').setup {
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
 
       -- If you want to add a bunch of pre-configured snippets,
       --    you can use this plugin to help you. It even has snippets
@@ -659,7 +627,7 @@ require('lazy').setup {
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<enter>'] = cmp.mapping.confirm { select = true },
+          ['<tab>'] = cmp.mapping.confirm { select = true },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -689,50 +657,22 @@ require('lazy').setup {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = 'nvim_lsp_signature_help' },
         },
       }
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
-    'ellisonleao/gruvbox.nvim',
-    name = 'gruvbox',
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+  {
+    'neanias/everforest-nvim',
+    version = false,
+    lazy = false,
     priority = 1000, -- make sure to load this before all the other start plugins
+    -- Optional; default configuration will be used if setup isn't called.
     config = function()
-      vim.o.termguicolors = true
-      vim.o.background = 'dark'
-
-      require('gruvbox').setup {
-        terminal_colors = true, -- add neovim terminal colors
-        undercurl = true,
-        underline = true,
-        bold = true,
-        italic = {
-          strings = true,
-          emphasis = true,
-          comments = true,
-          operators = false,
-          folds = true,
-        },
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        invert_intend_guides = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = '', -- can be "hard", "soft" or empty string
-        palette_overrides = {},
-        overrides = {},
-        dim_inactive = false,
-        transparent_mode = false,
+      require('everforest').setup {
+        vim.cmd.colorscheme 'everforest',
       }
-
-      vim.cmd.colorscheme 'gruvbox'
     end,
   },
 
@@ -770,11 +710,6 @@ require('lazy').setup {
       statusline.section_location = function()
         return '%2l:%-2v'
       end
-
-      require('mini.pairs').setup()
-
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
 
@@ -791,6 +726,85 @@ require('lazy').setup {
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
+      }
+
+      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+
+      parser_config.ziggy = {
+        install_info = {
+          url = 'https://github.com/kristoff-it/ziggy',
+          includes = { 'tree-sitter-ziggy/src' },
+          files = { 'tree-sitter-ziggy/src/parser.c' },
+          branch = 'main',
+          generate_requires_npm = false,
+          requires_generate_from_grammar = false,
+        },
+        filetype = 'ziggy',
+      }
+
+      parser_config.ziggy_schema = {
+        install_info = {
+          url = 'https://github.com/kristoff-it/ziggy',
+          files = { 'tree-sitter-ziggy-schema/src/parser.c' },
+          branch = 'main',
+          generate_requires_npm = false,
+          requires_generate_from_grammar = false,
+        },
+        filetype = 'ziggy-schema',
+      }
+
+      parser_config.supermd = {
+        install_info = {
+          url = 'https://github.com/kristoff-it/supermd',
+          includes = { 'tree-sitter/supermd/src' },
+          files = {
+            'tree-sitter/supermd/src/parser.c',
+            'tree-sitter/supermd/src/scanner.c',
+          },
+          branch = 'main',
+          generate_requires_npm = false,
+          requires_generate_from_grammar = false,
+        },
+        filetype = 'supermd',
+      }
+
+      parser_config.supermd_inline = {
+        install_info = {
+          url = 'https://github.com/kristoff-it/supermd',
+          includes = { 'tree-sitter/supermd-inline/src' },
+          files = {
+            'tree-sitter/supermd-inline/src/parser.c',
+            'tree-sitter/supermd-inline/src/scanner.c',
+          },
+          branch = 'main',
+          generate_requires_npm = false,
+          requires_generate_from_grammar = false,
+        },
+        filetype = 'supermd_inline',
+      }
+
+      parser_config.superhtml = {
+        install_info = {
+          url = 'https://github.com/kristoff-it/superhtml',
+          includes = { 'tree-sitter-superhtml/src' },
+          files = {
+            'tree-sitter-superhtml/src/parser.c',
+            'tree-sitter-superhtml/src/scanner.c',
+          },
+          branch = 'main',
+          generate_requires_npm = false,
+          requires_generate_from_grammar = false,
+        },
+        filetype = 'superhtml',
+      }
+
+      vim.filetype.add {
+        extension = {
+          smd = 'supermd',
+          shtml = 'superhtml',
+          ziggy = 'ziggy',
+          ['ziggy-schema'] = 'ziggy_schema',
+        },
       }
 
       -- There are additional nvim-treesitter modules that you can use to interact
