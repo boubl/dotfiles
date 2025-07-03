@@ -5,10 +5,10 @@ font-feature = cv01
 # a with top arm
 font-feature = cv02
 # No ligatures
-font-feature = -calt
+# font-feature = -calt
 
 # macOS settings
 macos-option-as-alt = left
 keybind = global:cmd+\=toggle_quick_terminal
 
-config-file = "lushforest_ghostty"
+theme = "pastelwood"

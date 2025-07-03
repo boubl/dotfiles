@@ -1,5 +1,6 @@
 /* Theme: Catppuccin Mocha */
 @define-color base   #1e1e2e;
+@define-color baset  rgba(30, 30, 46, 0.8);
 @define-color mantle #181825;
 @define-color crust  #11111b;
 
@@ -43,30 +44,23 @@
 }
 
 #waybar {
-	background: transparent;
-	font-family: mononoki, Symbols Nerd Font Mono, Twemoji, monospace;
+	background: @baset;
+	font-family: Maple Mono;
 	font-size: 12pt;
 }
 
 .modules-left {
-	padding: 0 0.5rem;
-	background: @base;
-	border-radius: 7px;
-	border: solid 2px @surface0;
+	background: transparent;
 }
 
 .modules-center {
+	background: transparent;
 	margin: 0 10pt; 
 	padding: 0 0.5rem;
-	background: @base;
-	border-radius: 7px;
-	border: solid 2px alpha(@lavender, 0.6);
 }
 
 .modules-right {
-	background: @base;
-	border-radius: 7px;
-	border: solid 2px @surface0;
+	background: transparent;
 }
 
 /* Each module */
@@ -99,23 +93,18 @@
 }
 
 #workspaces button {
-	margin: 3pt 2pt;
-	padding-left: 2pt;
-	padding-right: 2pt;
+	padding: 0pt 2pt;
 	background: transparent;
 	color: @lavender;
 	border-radius: 6px;
 }
 
 #workspaces button.visible {
-	font-weight: bold;
-	color: @base;
-	background: @lavender;
+	color: @mauve;
 }
 
 #workspaces button:hover {
-	background: @mauve;
-	color: @base;
+	color: @mauve;
 }
 
 #pulseaudio {

@@ -1,10 +1,10 @@
 {
     "reload_style_on_change": true,
     "layer": "top",
-    "margin-top": 10,
-    "margin-left": 10,
-    "margin-right": 10,
-    "fixed-center": true,
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "fixed-center": false,
     
     "modules-left": [
         "hyprland/workspaces"
@@ -17,9 +17,6 @@
     "modules-right": [
 	"pulseaudio",
 	"network",
-	"memory",
-	"cpu",
-	"temperature",
 	"battery",
 	"tray",
 	"clock#date",
@@ -28,31 +25,17 @@
     "tray": {
         "spacing": 10
     },
-	"clock#time": {
-		"interval": 1,
-		"format": "{:%T}",
-		"tooltip": false
-	},
+    "clock#time": {
+            "interval": 1,
+            "format": "{:%T}",
+            "tooltip": false
+    },
 
-	"clock#date": {
-		"interval": 20,
-		"format": "{:%d/%m/%Y}",
-		"tooltip": false
-	},
-    "cpu": {
-        "format": "󰻠 {usage}%",
-        "tooltip": false
+    "clock#date": {
+            "interval": 20,
+            "format": "{:%d/%m/%Y}",
+            "tooltip": false
     },
-    "memory": {
-        "format": "󰍛 {percentage}%",
-	"tooltip": false
-    },
-    "temperature": {
-        "critical-threshold": 80,
-        "format": "{icon} {temperatureC}°C",
-        "format-icons": ["", "", "", "", ""],
-	"tooltip": false
-    }, 
     "battery": {
         "states": {
             "warning": 30,
@@ -87,8 +70,13 @@
             "default": ["", "", ""]
         },
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-	"on-click-right": "pavucontrol"
+        "on-click-right": "pavucontrol"
     },
+    "hyprland/workspaces": {
+        "format": "󰄯",
+        "on-click": "activate",
+        "sort-by-number": true
+    }
 }
 
 // vim:ft=jsonc
