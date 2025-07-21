@@ -11,4 +11,4 @@ font-feature = cv02
 macos-option-as-alt = left
 keybind = global:cmd+\=toggle_quick_terminal
 
-theme = "pastelwood"
+theme = "tokyonight_night"

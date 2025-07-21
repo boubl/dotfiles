@@ -664,15 +664,13 @@ require('lazy').setup {
   },
 
   {
-    'neanias/everforest-nvim',
-    version = false,
+    'folke/tokyonight.nvim',
     lazy = false,
-    priority = 1000, -- make sure to load this before all the other start plugins
-    -- Optional; default configuration will be used if setup isn't called.
+    priority = 1000,
+    opts = {},
+
     config = function()
-      require('everforest').setup {
-        vim.cmd.colorscheme 'everforest',
-      }
+      vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
 

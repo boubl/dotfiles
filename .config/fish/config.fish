@@ -4,7 +4,9 @@ end
 
 # Homebrew settings
 set -x HOMEBREW_NO_ENV_HINTS 1
-set -x GSK_RENDERER ngl
+
+# Starship
+starship init fish | source
 
 # Zoxide
 zoxide init fish | source
