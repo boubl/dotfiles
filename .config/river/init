@@ -2,7 +2,7 @@
 
 riverctl spawn "sandbar -font MapleMono -no-layout -scale 2"
 riverctl spawn swww-daemon
-rivetctl spawn "swww img ~/Pictures/Wallpapers/skate.png"
+riverctl spawn "swww img ~/Wallpapers/flcl.png"
 riverctl spawn "wlr-randr --output eDP-1 --scale 1.7"
 
 riverctl map normal Super+Shift Return spawn foot

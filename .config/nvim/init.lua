@@ -154,7 +154,7 @@ require('lazy').setup {
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',    opts = {} },
 
   --toggle terminals
   {
@@ -165,17 +165,17 @@ require('lazy').setup {
         -- size can be a number or function which is passed the current terminal
         size = 20,
         open_mapping = [[<c-\>]], -- or { [[<c-\>]], [[<c-¥>]] } if you also use a Japanese keyboard.
-        hide_numbers = true, -- hide the number column in toggleterm buffers
+        hide_numbers = true,      -- hide the number column in toggleterm buffers
         shade_filetypes = {},
-        autochdir = false, -- when neovim changes it current directory the terminal will change it's own when next it's opened
-        shade_terminals = true, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
+        autochdir = false,        -- when neovim changes it current directory the terminal will change it's own when next it's opened
+        shade_terminals = true,   -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
         start_in_insert = true,
-        insert_mappings = true, -- whether or not the open mapping applies in insert mode
+        insert_mappings = true,   -- whether or not the open mapping applies in insert mode
         terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
         persist_size = true,
-        persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
+        persist_mode = true,      -- if set to true (default) the previous terminal mode will be remembered
         direction = 'float',
-        close_on_exit = true, -- close the terminal window when the process exits
+        close_on_exit = true,     -- close the terminal window when the process exits
         -- Change the default shell. Can be a string or a function returning a string
         shell = vim.o.shell,
         auto_scroll = true, -- automatically scroll to the bottom on terminal output
@@ -233,7 +233,7 @@ require('lazy').setup {
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
@@ -241,15 +241,15 @@ require('lazy').setup {
 
       -- Document existing key chains
       require('which-key').add {
-        { '<leader>c', group = '[C]ode' },
+        { '<leader>c',  group = '[C]ode' },
         { '<leader>c_', hidden = true },
-        { '<leader>d', group = '[D]ocument' },
+        { '<leader>d',  group = '[D]ocument' },
         { '<leader>d_', hidden = true },
-        { '<leader>r', group = '[R]ename' },
+        { '<leader>r',  group = '[R]ename' },
         { '<leader>r_', hidden = true },
-        { '<leader>s', group = '[S]earch' },
+        { '<leader>s',  group = '[S]earch' },
         { '<leader>s_', hidden = true },
-        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>w',  group = '[W]orkspace' },
         { '<leader>w_', hidden = true },
       }
     end,
@@ -401,6 +401,9 @@ require('lazy').setup {
           },
         },
       }
+      lspconfig.qmlls.setup {
+        cmd = { "qmlls6", "-E" },
+      }
 
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
@@ -480,7 +483,6 @@ require('lazy').setup {
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       local servers = {
-        clangd = {},
         lua_ls = {
           -- cmd = {...},
           filetypes = { 'lua', 'p8' },
@@ -522,10 +524,6 @@ require('lazy').setup {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
-      })
-
-      vim.list_extend(servers, {
-        clangd = {}, -- Workaround to not install clangd automatically
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }

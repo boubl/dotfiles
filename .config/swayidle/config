@@ -1,0 +1,3 @@
+timeout 5 'waylock -fork-on-lock -init-color 0x24283b -input-color 0xbb9af7 -input-alt-color 0xff007c -fail-color 0xf7768e'
+timeout 600 'wlr-randr --output eDP-1 --off' resume 'wlr-randr --output eDP-1 --on'
+before-sleep 'waylock -fork-on-lock -init-color 0x24283b -input-color 0xbb9af7 -input-alt-color 0xff007c -fail-color 0xf7768e'
