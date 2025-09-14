@@ -1,12 +1,18 @@
 #!/bin/fish
 
-riverctl spawn "sandbar -font MapleMono -no-layout -scale 2"
+riverctl spawn "creek -fn MapleMono:size=24 -hg 40 -nf 0xffffff -nb 0x000000"
+riverctl spawn mako
 riverctl spawn swww-daemon
 riverctl spawn "swww img ~/Wallpapers/flcl.png"
 riverctl spawn "wlr-randr --output eDP-1 --scale 1.7"
 
 riverctl map normal Super+Shift Return spawn foot
 riverctl map normal Super R spawn fuzzel
+
+riverctl keyboard-layout -options "compose:caps" us
+
+riverctl map normal Super p spawn 'grim -g "$(slurp)" - | wl-copy'
+
 riverctl map normal Super C close
 riverctl map normal Super+Shift E exit
 
