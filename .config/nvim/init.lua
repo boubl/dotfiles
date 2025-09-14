@@ -1,4 +1,4 @@
-require 'custom.config'
+require 'config'
 
 vim.filetype.add {
   extension = {
@@ -726,83 +726,6 @@ require('lazy').setup {
 
       local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
 
-      parser_config.ziggy = {
-        install_info = {
-          url = 'https://github.com/kristoff-it/ziggy',
-          includes = { 'tree-sitter-ziggy/src' },
-          files = { 'tree-sitter-ziggy/src/parser.c' },
-          branch = 'main',
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
-        },
-        filetype = 'ziggy',
-      }
-
-      parser_config.ziggy_schema = {
-        install_info = {
-          url = 'https://github.com/kristoff-it/ziggy',
-          files = { 'tree-sitter-ziggy-schema/src/parser.c' },
-          branch = 'main',
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
-        },
-        filetype = 'ziggy-schema',
-      }
-
-      parser_config.supermd = {
-        install_info = {
-          url = 'https://github.com/kristoff-it/supermd',
-          includes = { 'tree-sitter/supermd/src' },
-          files = {
-            'tree-sitter/supermd/src/parser.c',
-            'tree-sitter/supermd/src/scanner.c',
-          },
-          branch = 'main',
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
-        },
-        filetype = 'supermd',
-      }
-
-      parser_config.supermd_inline = {
-        install_info = {
-          url = 'https://github.com/kristoff-it/supermd',
-          includes = { 'tree-sitter/supermd-inline/src' },
-          files = {
-            'tree-sitter/supermd-inline/src/parser.c',
-            'tree-sitter/supermd-inline/src/scanner.c',
-          },
-          branch = 'main',
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
-        },
-        filetype = 'supermd_inline',
-      }
-
-      parser_config.superhtml = {
-        install_info = {
-          url = 'https://github.com/kristoff-it/superhtml',
-          includes = { 'tree-sitter-superhtml/src' },
-          files = {
-            'tree-sitter-superhtml/src/parser.c',
-            'tree-sitter-superhtml/src/scanner.c',
-          },
-          branch = 'main',
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
-        },
-        filetype = 'superhtml',
-      }
-
-      vim.filetype.add {
-        extension = {
-          smd = 'supermd',
-          shtml = 'superhtml',
-          ziggy = 'ziggy',
-          ['ziggy-schema'] = 'ziggy_schema',
-        },
-      }
-
       -- There are additional nvim-treesitter modules that you can use to interact
       -- with nvim-treesitter. You should go explore a few and see what interests you:
       --
@@ -812,25 +735,7 @@ require('lazy').setup {
     end,
   },
 
-  -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
-  -- init.lua. If you want these files, they are in the repository, so you can just download them and
-  -- put them in the right spots if you want.
-
-  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for kickstart
-  --
-  --  Here are some example plugins that I've included in the kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-  --
-  -- require 'kickstart.plugins.debug',
-  require 'kickstart.plugins.indent_line',
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    This is the easiest way to modularize your config.
-  --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  { import = 'custom.plugins' },
+  { import = 'plugins' },
 }
 
--- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
