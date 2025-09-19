@@ -1,15 +1,12 @@
 import QtQuick
 
 Text {
-    property real fill
-    property int grade: 0
-
     font.family: "Material Symbols Rounded"
-    font.pointSize: 15
+    font.pointSize: 16
     font.variableAxes: ({
-            FILL: fill.toFixed(1),
-            GRAD: grade,
-            opsz: fontInfo.pixelSize,
-            wght: fontInfo.weight
+            FILL: 0,
+            GRAD: 0,
+            opsz: 24,
+            wght: 400
         })
 }

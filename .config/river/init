@@ -136,8 +136,8 @@ for mode in normal locked
     riverctl map $mode None XF86AudioNext  spawn 'playerctl next'
 
     # Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
-    riverctl map $mode None XF86MonBrightnessUp   spawn 'brightnessctl set +5%'
-    riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
+    riverctl map normal None XF86MonBrightnessUp spawn 'for i in $(seq 5);do brightnessctl set +1%;done'
+    riverctl map normal None XF86MonBrightnessDown spawn 'for i in $(seq 5);do brightnessctl set 1%-;done'
 end
 
 # Set background and border color
