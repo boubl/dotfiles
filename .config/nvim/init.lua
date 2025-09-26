@@ -393,17 +393,24 @@ require('lazy').setup {
           vim.lsp.buf.format()
         end,
       })
-      local lspconfig = vim.lsp.config
-      lspconfig("zls", {
+
+      vim.lsp.config('zls', {
         settings = {
           zls = {
             enable_build_on_save = true,
           },
         },
       })
-      lspconfig("qmlls", {
+
+      vim.lsp.config('qmlls', {
         cmd = { 'qmlls6', '-E' },
       })
+
+      vim.lsp.config('clangd', {})
+
+      vim.lsp.enable 'zls'
+      vim.lsp.enable 'qmlls'
+      vim.lsp.enable 'clangd'
 
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),

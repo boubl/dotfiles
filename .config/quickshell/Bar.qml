@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Services.UPower
 import Quickshell.Services.Pipewire
+import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 
@@ -83,7 +84,8 @@ Scope {
 
             RowLayout {
                 anchors.centerIn: parent
-                Bedload {
+                Text {
+                    text: ToplevelManager.activeToplevel.appId
                     color: "#c0caf5"
                     font.family: "Google Sans Flex"
                     font.pointSize: 14
