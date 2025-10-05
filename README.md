@@ -32,5 +32,6 @@ and I probably forgot other stuff
 
 ## Fonts:
 
+- Giphurs
 - MapleMono
 - Nerd Font Symbols
