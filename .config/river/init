@@ -5,6 +5,7 @@ systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
 systemctl --user restart xdg-desktop-portal
 
+riverctl spawn swayidle
 riverctl spawn mako
 riverctl spawn swww-daemon
 riverctl spawn "swww img ~/Wallpapers/79784339_あすてろid.png"
@@ -160,6 +161,9 @@ riverctl set-repeat 50 300
 
 # Make all views with an app-id that starts with "float" and title "foo" start floating.
 riverctl rule-add -app-id 'float*' -title 'foo' float
+
+# Make Zen's pip windows floating.
+riverctl rule-add -app-id 'zen' -title 'Picture-in-Picture' float
 
 # Make all views with app-id "bar" and any title use client-side decorations
 riverctl rule-add -app-id "bar" csd

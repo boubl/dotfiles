@@ -32,21 +32,32 @@ Item {
     }
     Item {
         id: maskItem
-        width: bar.width
-        height: bar.height
+        width: container.width
+        height: container.height
         layer.enabled: true
         layer.smooth: true
         visible: false
-        Rectangle {
-            width: bar.width
-            height: bar.height
-            color: "black"
-            radius: 7
+        Row {
+            spacing: -4
+            Rectangle {
+                width: bar.width * 0.9
+                height: bar.height
+                color: "black"
+                radius: 7
+            }
+            Rectangle {
+                anchors.verticalCenter: parent.verticalCenter
+                width: container.width * 0.1 + 3
+                height: container.height * 0.5
+                color: "black"
+                radius: 7
+            }
         }
     }
 
     Row {
         anchors.centerIn: parent
+        anchors.horizontalCenterOffset: -container.width * 0.05
         Text {
             anchors.verticalCenter: parent.verticalCenter
             text: Math.floor(container.level * 100)
