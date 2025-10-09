@@ -1,14 +1,28 @@
+import Quickshell
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Controls
 import QtQuick.Controls.Fusion
 
-Image {
+Item {
     id: root
-    required property Context context
 
-    anchors.fill: parent
-    fillMode: Image.PreserveAspectCrop
-    source: "bg.png"
+    required property LockContext context
+
+    Image {
+        id: background
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        source: "../../bg.png"
+    }
+    MultiEffect {
+        source: background
+        anchors.fill: background
+        blurEnabled: true
+        blurMax: 45
+        blur: 1
+        autoPaddingEnabled: false
+    }
 
     Button {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -16,21 +30,37 @@ Image {
         onClicked: root.context.unlocked()
     }
 
-    Column {
-        anchors.centerIn: parent
+    Row {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        bottomPadding: 40
+        spacing: 2
         Rectangle {
             id: inputRect
-            anchors.horizontalCenter: parent.horizontalCenter
             clip: true
             implicitWidth: 160
-            implicitHeight: 30
-            color: "white"
-            radius: 10
+            implicitHeight: 50
+            color: "#1a1b26"
+            radius: height * 0.3
+
+            border {
+                color: "#292e42"
+                width: 4
+            }
+
             TextInput {
                 id: passwordInput
 
-                anchors.centerIn: parent
-                width: parent.width
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenterOffset: width > parent.width ? -width / 2 + parent.width / 2 : 0
+                clip: true
+                padding: parent.radius / 2
+                width: Math.min(contentWidth + padding * 2, parent.width - parent.border.width * 2)
+
+                font.family: "Giphurs"
+                font.pointSize: 16
+                color: "#c0caf5"
 
                 echoMode: TextInput.Password
                 focus: true
@@ -51,7 +81,6 @@ Image {
             }
         }
         Button {
-            anchors.horizontalCenter: parent.horizontalCenter
             text: "Unlock"
             focusPolicy: Qt.NoFocus
             enabled: !root.context.unlockInProgress && root.context.currentText !== ""

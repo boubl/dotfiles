@@ -1,9 +1,11 @@
 import Quickshell
 import Quickshell.Wayland
 
+import qs.modules.lockscreen
+
 ShellRoot {
     // This stores all the information shared between the lock surfaces on each screen.
-    Context {
+    LockContext {
         id: lockContext
 
         onUnlocked: {

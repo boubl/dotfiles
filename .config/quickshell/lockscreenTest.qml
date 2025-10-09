@@ -1,8 +1,10 @@
 import QtQuick
 import Quickshell
 
+import qs.modules.lockscreen
+
 ShellRoot {
-    Context {
+    LockContext {
         id: lockContext
         onUnlocked: Qt.quit()
     }

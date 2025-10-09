@@ -1,4 +1,4 @@
-timeout 300 'swaylock -f -c 24283b'
-lock 'swaylock -f -c 24283b'
+idlehint 300
+lock 'qs -p ~/.config/quickshell/lockscreen.qml'
 timeout 600 'wlr-randr --output eDP-1 --off' resume 'wlr-randr --output eDP-1 --on'
-before-sleep 'swaylock -f -c 24283b'
+before-sleep 'qs -p ~/.config/quickshell/lockscreen.qml'
