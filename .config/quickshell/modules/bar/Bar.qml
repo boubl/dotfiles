@@ -1,19 +1,24 @@
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
+import Quickshell.Services.Mpris
 import QtQuick
 
+import qs.modules.controlcenter
 import qs.utils.river
+import qs.utils
 
 Scope {
     Variants {
         model: Quickshell.screens
 
         PanelWindow {
+            id: root
             required property var modelData
             screen: modelData
+            exclusiveZone: 30
 
-            color: "#1a1b26"
+            color: "transparent"
 
             anchors {
                 top: true
@@ -21,56 +26,91 @@ Scope {
                 right: true
             }
 
-            implicitHeight: 30
+            implicitHeight: 35
 
-            // Left
-            Row {
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                anchors.verticalCenter: parent.verticalCenter
+            CCWindow {
+                anchor.window: root
+                visible: ShellContext.isControlCenterOpen
+            }
 
-                spacing: 10
-
-                ClockWidget {}
-
-                TagsView {
-                    anchors.verticalCenter: parent.verticalCenter
+            Rectangle {
+                anchors.fill: parent
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0.0
+                        color: "#FF1a1b26"
+                    }
+                    GradientStop {
+                        position: 0.8
+                        color: "#B01a1b26"
+                    }
+                    GradientStop {
+                        position: 1.0
+                        color: "#001a1b26"
+                    }
                 }
             }
 
-            // Right
-            Row {
-                spacing: 4
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.rightMargin: 5
+            Item {
+                implicitWidth: parent.width
+                implicitHeight: 30
+                // Left
+                Row {
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
 
-                Repeater {
-                    model: SystemTray.items.values
+                    spacing: 10
 
-                    IconImage {
+                    StylizedText {
+                        text: Time.time
                         anchors.verticalCenter: parent.verticalCenter
-                        source: modelData.icon
-                        implicitSize: 20
+                    }
+                    StylizedText {
+                        text: Time.date
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    TagsView {
+                        anchors.verticalCenter: parent.verticalCenter
                     }
                 }
 
-                VolumeWidget {}
-                // MaterialIcon {
-                //     color: "#c0caf5"
-                //     text: "wifi"
-                // }
-                BatteryWidget {}
-            }
+                // Right
+                Row {
+                    spacing: 4
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.rightMargin: 5
 
-            // Center
-            Row {
-                anchors.centerIn: parent
-                Text {
-                    text: Bedload.focusedViewTitle
-                    color: "#c0caf5"
-                    font.family: "Giphurs"
-                    font.pointSize: 14
+                    Repeater {
+                        model: SystemTray.items.values
+
+                        IconImage {
+                            anchors.verticalCenter: parent.verticalCenter
+                            source: modelData.icon
+                            implicitSize: 20
+                        }
+                    }
+
+                    VolumeWidget {}
+
+                    BatteryWidget {
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                ShellContext.isControlCenterOpen = !ShellContext.isControlCenterOpen;
+                            }
+                        }
+                    }
+                }
+
+                // Center
+                Row {
+                    anchors.centerIn: parent
+                    StylizedText {
+                        text: Bedload.focusedViewTitle
+                    }
                 }
             }
         }

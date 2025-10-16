@@ -3,7 +3,6 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-  { 'norcalli/nvim-colorizer.lua', opts = {} },
   {
     'stevearc/oil.nvim',
     opts = {},

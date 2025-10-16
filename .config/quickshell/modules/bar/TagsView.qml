@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 
 import qs.utils.river
+import qs.utils.debug
 
 Row {
     spacing: 2
@@ -12,18 +13,22 @@ Row {
         }
 
         Rectangle {
-            color: modelData.focused ? "#c0caf5" : "#565f89"
+            color: modelData.urgent ? "#ff9e64" : modelData.focused ? "#c0caf5" : "#565f89"
             radius: 10
             implicitHeight: 20
-            implicitWidth: modelData.active ? modelData.focused ? 20 : 10 : 0
+            implicitWidth: modelData.active ? modelData.focused ? 20 : 12 : 0
             visible: width >= 10
 
             Text {
                 text: modelData.id
-                anchors.centerIn: parent
-                font.family: "Giphurs"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.family: "Bricolage Grotesque"
                 font.bold: true
+                font.pointSize: 10
                 color: "#1a1b26"
+
+                // DebugRectangle {}
             }
 
             Behavior on color {

@@ -14,6 +14,8 @@ if status is-interactive
     # Zoxide
     zoxide init fish | source
     alias cd=z
+
+    fish_vi_key_bindings
 end
 
 # Homebrew settings

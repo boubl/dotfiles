@@ -44,6 +44,7 @@
     "title",
     "separator",
     "os",
+    "kernel",
     "shell",
     "de",
     "wm",

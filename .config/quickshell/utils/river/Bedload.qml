@@ -7,40 +7,7 @@ import QtQuick
 Singleton {
     id: root
     property string focusedViewTitle
-    property list<Tag> tags: [
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {},
-        Tag {}
-    ]
+    property list<Tag> tags: []
 
     Process {
         running: true
@@ -57,13 +24,21 @@ Singleton {
             onRead: data => parseTags(JSON.parse(data))
 
             function parseTags(data) {
+                if (root.tags.length === 0) {
+                    for (var i = 0; i < 32; i++) {
+                        const comp = Qt.createComponent("Tag.qml");
+                        root.tags.push(comp.createObject(null, {}));
+                    }
+                }
+
                 for (var i = 0; i < 32; i++) {
-                    root.tags[i].output = data[i].output;
-                    root.tags[i].id = data[i].id;
-                    root.tags[i].active = data[i].active;
-                    root.tags[i].focused = data[i].focused;
-                    root.tags[i].occupied = data[i].occupied;
-                    root.tags[i].urgent = data[i].urgent;
+                    var t = root.tags[i];
+                    t.output = data[i].output;
+                    t.id = data[i].id;
+                    t.active = data[i].active;
+                    t.focused = data[i].focused;
+                    t.occupied = data[i].occupied;
+                    t.urgent = data[i].urgent;
                 }
             }
         }

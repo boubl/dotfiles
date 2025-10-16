@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Effects
 import Quickshell.Services.UPower
 
+import qs.utils
+
 Item {
     id: container
     anchors.verticalCenter: parent.verticalCenter
@@ -58,14 +60,13 @@ Item {
     Row {
         anchors.centerIn: parent
         anchors.horizontalCenterOffset: -container.width * 0.05
-        Text {
+        StylizedText {
             anchors.verticalCenter: parent.verticalCenter
             text: Math.floor(container.level * 100)
             color: "#24283b"
-            font.family: "Giphurs"
             font.pointSize: 12
         }
-        Text {
+        StylizedText {
             color: "#24283b"
             text: "󱐋"
             font.pointSize: 11

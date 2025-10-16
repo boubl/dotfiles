@@ -18,7 +18,9 @@ riverctl spawn qs
 # Input stuff
 riverctl input pointer-1452-850-Apple_MTP_multi-touch disable-while-typing disabled
 
-riverctl map normal Super+Shift Return spawn foot
+# My addiction to zig is not getting better
+# riverctl map normal Super+Shift Return spawn foot
+riverctl map normal Super+Shift Return spawn ghostty
 riverctl map normal Super R spawn fuzzel
 
 riverctl keyboard-layout -options "compose:caps" us
@@ -159,14 +161,8 @@ riverctl border-color-unfocused 0x586e75
 # Set keyboard repeat rate
 riverctl set-repeat 50 300
 
-# Make all views with an app-id that starts with "float" and title "foo" start floating.
-riverctl rule-add -app-id 'float*' -title 'foo' float
-
 # Make Zen's pip windows floating.
 riverctl rule-add -app-id 'zen' -title 'Picture-in-Picture' float
-
-# Make all views with app-id "bar" and any title use client-side decorations
-riverctl rule-add -app-id "bar" csd
 
 # Set the default layout generator to be rivertile and start it.
 # River will send the process group of the init executable SIGTERM on exit.
