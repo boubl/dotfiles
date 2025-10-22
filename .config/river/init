@@ -9,7 +9,8 @@ riverctl spawn swayidle
 riverctl spawn mako
 riverctl spawn swww-daemon
 riverctl spawn "swww img ~/Wallpapers/79784339_あすてろid.png"
-riverctl spawn "wlr-randr --output eDP-1 --scale 1.7"
+# riverctl spawn "wlr-randr --output eDP-1 --scale 1.7"
+way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1 &
 
 # Quickshell stuff
 riverctl spawn qs

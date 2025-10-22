@@ -1,6 +1,7 @@
 import QtQuick
 
 import qs.utils
+import qs.services.volume
 
 Item {
     id: sine
@@ -28,19 +29,19 @@ Item {
             var spacing = 0.5;
 
             if (sine.volume < 0.89) {
-                ctx.strokeStyle = "#565f89";
+                ctx.strokeStyle = Colors.dark_medium.bg2;
                 ctx.beginPath();
                 ctx.arc(width / 2, height / 2, radius, start - spacing, end + spacing, true);
                 ctx.stroke();
             }
 
-            var color = sine.muted ? "#565f89" : "#c0caf5";
+            var color = sine.muted ? Colors.dark_medium.bg4 : Colors.dark_medium.statusline1;
             ctx.strokeStyle = color;
             ctx.beginPath();
             ctx.arc(width / 2, height / 2, radius, start, end);
             ctx.stroke();
 
-            ctx.fillStyle = "#c0caf5";
+            ctx.fillStyle = Colors.dark_medium.fg;
             ctx.font = "10pt Giphurs";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";

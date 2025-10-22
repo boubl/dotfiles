@@ -10,7 +10,7 @@ Rectangle {
     signal clicked
 
     radius: Math.min(height, width) / 2
-    color: mouseArea.containsMouse ? mouseArea.pressed ? Colors.fg_gutter : Colors.orange : Colors.fg
+    color: mouseArea.containsMouse ? mouseArea.pressed ? Colors.dark_medium.bg1 : Colors.dark_medium.bg3 : Colors.dark_medium.bg2
 
     Row {
         padding: 10
@@ -21,18 +21,18 @@ Rectangle {
             text: root.icon
             font.family: "Symbols Nerd Font"
             font.pointSize: 16
-            color: Colors.bg
+            color: Colors.dark_medium.fg
         }
         StylizedText {
             anchors.verticalCenter: parent.verticalCenter
             text: root.text
-            color: Colors.bg
             font.pointSize: 12
             visible: root.text.length > 0
         }
     }
 
     Behavior on color {
+        enabled: !mouseArea.pressed
         ColorAnimation {
             duration: 200
         }

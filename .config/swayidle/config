@@ -1,4 +1,4 @@
-idlehint 300
+idlehint 5
 lock 'qs -p ~/.config/quickshell/lockscreen.qml'
 timeout 600 'wlr-randr --output eDP-1 --off' resume 'wlr-randr --output eDP-1 --on'
 before-sleep 'qs -p ~/.config/quickshell/lockscreen.qml'

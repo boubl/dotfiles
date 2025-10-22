@@ -3,6 +3,7 @@ import QtQuick.Effects
 import Quickshell.Services.UPower
 
 import qs.utils
+import qs.utils.debug
 
 Item {
     id: container
@@ -16,14 +17,14 @@ Item {
         id: bar
         width: container.width
         height: container.height
-        color: "#70789c"
+        color: Colors.dark_medium.bg2
         layer.enabled: true
         Rectangle {
             anchors.left: parent.left
             anchors.top: parent.top
             width: parent.width * container.level
             height: parent.height
-            color: "#c0caf5"
+            color: Colors.dark_medium.statusline2
         }
         layer.effect: MultiEffect {
             maskEnabled: true
@@ -63,12 +64,14 @@ Item {
         StylizedText {
             anchors.verticalCenter: parent.verticalCenter
             text: Math.floor(container.level * 100)
-            color: "#24283b"
+            color: Colors.dark_medium.bg_dim
             font.pointSize: 12
         }
-        StylizedText {
-            color: "#24283b"
+        Text {
+            anchors.verticalCenter: parent.verticalCenter
+            color: Colors.dark_medium.bg_dim
             text: "󱐋"
+            font.family: "Symbols Nerd Font"
             font.pointSize: 11
             visible: UPower.displayDevice.state == UPowerDeviceState.Charging
         }

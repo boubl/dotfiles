@@ -12,7 +12,7 @@ Rectangle {
     Layout.fillWidth: true
     // height: 50
     radius: 15
-    color: Colors.fg
+    color: Colors.dark_medium.bg2
     clip: true
 
     RowLayout {
@@ -32,7 +32,7 @@ Rectangle {
             layer.enabled: true
             layer.smooth: true
             radius: 10
-            color: Colors.fg_gutter
+            color: Colors.dark_medium.grey0
             Image {
                 id: albumArt
                 anchors.fill: parent
@@ -64,7 +64,6 @@ Rectangle {
                     id: title
                     text: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackTitle : "No media playing"
                     x: (columnRoot.width - title.contentWidth)
-                    color: Colors.bg
                     font.pointSize: 14
 
                     SequentialAnimation on x {
@@ -95,7 +94,6 @@ Rectangle {
             StylizedText {
                 text: Mpris.players.values[0].trackArtist
                 visible: Mpris.players.values.length > 0
-                color: Colors.bg
                 font.pointSize: 12
             }
             Item {
@@ -106,7 +104,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 15
                 Text {
-                    color: Colors.bg
+                    color: Colors.dark_medium.fg
                     Layout.preferredWidth: 30
                     Layout.preferredHeight: 30
                     horizontalAlignment: Text.AlignHCenter
@@ -120,7 +118,7 @@ Rectangle {
                     }
                 }
                 Text {
-                    color: Colors.bg
+                    color: Colors.dark_medium.fg
                     Layout.preferredWidth: 30
                     Layout.preferredHeight: 30
                     horizontalAlignment: Text.AlignHCenter
@@ -134,7 +132,7 @@ Rectangle {
                     }
                 }
                 Text {
-                    color: Colors.bg
+                    color: Colors.dark_medium.fg
                     Layout.preferredWidth: 30
                     Layout.preferredHeight: 30
                     horizontalAlignment: Text.AlignHCenter

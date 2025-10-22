@@ -3,7 +3,6 @@ import QtQuick.Effects
 import QtQuick.Controls
 import QtQuick.Controls.Fusion
 
-import qs.modules.bar
 import qs.utils
 
 Item {
@@ -32,17 +31,22 @@ Item {
     //     onClicked: root.context.unlocked()
     // }
 
-    Text {
-        text: Time.time
-
+    Column {
         anchors.centerIn: parent
-
-        font.family: "Bricolage Grotesque"
-        font.pointSize: 92
-        font.bold: true
-        color: "#c0caf5"
-
-        renderType: Text.CurveRendering
+        StylizedText {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: Time.time
+            font.pointSize: 92
+            font.bold: true
+            renderType: Text.NativeRendering
+        }
+        StylizedText {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: Time.dateLong
+            font.pointSize: 30
+            font.bold: true
+            renderType: Text.NativeRendering
+        }
     }
 
     Column {
@@ -55,27 +59,42 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             text: root.context.showFailure ? "Incorrect password" : "Enter password"
             font.family: "Bricolage Grotesque"
-            font.pointSize: 16
-            color: root.context.showFailure ? "#ff9e64" : "#c0caf5"
+            font.pointSize: 12
+            color: root.context.showFailure ? Colors.dark_medium.red : Colors.dark_medium.fg
         }
         Rectangle {
             id: inputRect
 
-            color: "#1a1b26"
+            color: Colors.dark_medium.bg0
             implicitWidth: 160
-            implicitHeight: 50
+            implicitHeight: 30
             radius: height * 0.3
             clip: true
 
             anchors.horizontalCenter: parent.horizontalCenter
 
             border {
-                color: "#292e42"
-                width: 4
+                color: Colors.dark_medium.grey0
+                width: 1
+            }
+
+            StylizedText {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenterOffset: width > parent.width ? -width / 2 + parent.width / 2 : 0
+                text: passwordInput.displayedText
+                x: passwordInput.cursorRectangle.x
+                y: passwordInput.cursorRectangle.y
+                visible: root.context.currentText.length > 0
+                font.pointSize: passwordInput.font.pointSize
             }
 
             TextInput {
                 id: passwordInput
+
+                property list<string> symbols: symbols = ["$", "%", "@", "*", "&", "#", "-", "+", "=", "?", "~"]
+                property string lastSymbol: "%"
+                property string displayedText: ""
 
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -85,16 +104,30 @@ Item {
                 width: Math.min(contentWidth + padding * 2, parent.width - parent.border.width * 2)
 
                 font.family: "Bricolage Grotesque"
-                font.pointSize: 16
-                color: "#c0caf5"
+                font.pointSize: 12
+                color: Colors.dark_medium.fg
 
-                echoMode: TextInput.Password
+                echoMode: TextInput.NoEcho
                 focus: true
                 enabled: !root.context.unlockInProgress
+                cursorVisible: root.context.currentText.length == 0
 
-                onTextChanged: root.context.currentText = this.text
+                onTextChanged: {
+                    const i = Math.floor(Math.random() * (passwordInput.symbols.length - 2));
+                    passwordInput.lastSymbol = passwordInput.symbols.filter(s => s != passwordInput.lastSymbol)[i];
+                    if (root.context.currentText.length > passwordInput.text.length) {
+                        passwordInput.displayedText = passwordInput.displayedText.substring(0, passwordInput.text.length);
+                        passwordInput.lastSymbol = passwordInput.displayedText.length ? passwordInput.displayedText[passwordInput.displayedText.length - 1] : "%";
+                    } else {
+                        passwordInput.displayedText += passwordInput.lastSymbol;
+                    }
+                    root.context.currentText = passwordInput.text;
+                }
                 onAccepted: root.context.tryUnlock()
-                Keys.onEscapePressed: this.text = ""
+                Keys.onEscapePressed: {
+                    passwordInput.text = "";
+                    passwordInput.displayedText = "";
+                }
 
                 // Update the text in the box to match the text in the context.
                 // This makes sure multiple monitors have the same text.
@@ -108,10 +141,4 @@ Item {
             }
         }
     }
-    // Button {
-    //     text: "Unlock"
-    //     focusPolicy: Qt.NoFocus
-    //     enabled: !root.context.unlockInProgress && root.context.currentText !== ""
-    //     onClicked: root.context.tryUnlock()
-    // }
 }

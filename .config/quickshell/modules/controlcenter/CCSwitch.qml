@@ -12,7 +12,7 @@ Rectangle {
     signal clicked(bool checked)
 
     radius: checked ? height / 2 : 15
-    color: checked ? Colors.orange : Colors.fg
+    color: checked ? Colors.dark_medium.grey0 : Colors.dark_medium.bg2
 
     Row {
         padding: 10
@@ -23,12 +23,11 @@ Rectangle {
             text: root.icon
             font.family: "Symbols Nerd Font"
             font.pointSize: 16
-            color: Colors.bg
+            color: Colors.dark_medium.fg
         }
         StylizedText {
             anchors.verticalCenter: parent.verticalCenter
             text: root.text
-            color: Colors.bg
             font.pointSize: 12
         }
     }

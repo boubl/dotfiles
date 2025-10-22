@@ -1,11 +1,11 @@
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
-import Quickshell.Services.Mpris
 import QtQuick
 
 import qs.modules.controlcenter
-import qs.utils.river
+import qs.services.river
+import qs.services.matugen
 import qs.utils
 
 Scope {
@@ -16,7 +16,7 @@ Scope {
             id: root
             required property var modelData
             screen: modelData
-            exclusiveZone: 30
+            exclusiveZone: 20
 
             color: "transparent"
 
@@ -26,11 +26,11 @@ Scope {
                 right: true
             }
 
-            implicitHeight: 35
+            implicitHeight: 60
 
             CCWindow {
                 anchor.window: root
-                visible: ShellContext.isControlCenterOpen
+                active: ShellContext.isControlCenterOpen
             }
 
             Rectangle {
@@ -38,15 +38,15 @@ Scope {
                 gradient: Gradient {
                     GradientStop {
                         position: 0.0
-                        color: "#FF1a1b26"
+                        color: Qt.alpha(Colors.dark_medium.bg_dim, 0.8)
                     }
                     GradientStop {
-                        position: 0.8
-                        color: "#B01a1b26"
+                        position: root.exclusiveZone / root.implicitHeight
+                        color: Qt.alpha(Colors.dark_medium.bg_dim, 0.4)
                     }
                     GradientStop {
                         position: 1.0
-                        color: "#001a1b26"
+                        color: Qt.alpha(Colors.dark_medium.bg_dim, 0)
                     }
                 }
             }
@@ -73,6 +73,7 @@ Scope {
 
                     TagsView {
                         anchors.verticalCenter: parent.verticalCenter
+                        screen: root.screen.name
                     }
                 }
 
@@ -109,6 +110,7 @@ Scope {
                 Row {
                     anchors.centerIn: parent
                     StylizedText {
+                        id: titleText
                         text: Bedload.focusedViewTitle
                     }
                 }

@@ -24,14 +24,15 @@ Singleton {
             onRead: data => parseTags(JSON.parse(data))
 
             function parseTags(data) {
-                if (root.tags.length === 0) {
-                    for (var i = 0; i < 32; i++) {
+                if (root.tags.length !== data.length) {
+                    root.tags = [];
+                    for (var i = 0; i < data.length; i++) {
                         const comp = Qt.createComponent("Tag.qml");
                         root.tags.push(comp.createObject(null, {}));
                     }
                 }
 
-                for (var i = 0; i < 32; i++) {
+                for (var i = 0; i < data.length; i++) {
                     var t = root.tags[i];
                     t.output = data[i].output;
                     t.id = data[i].id;
@@ -39,6 +40,7 @@ Singleton {
                     t.focused = data[i].focused;
                     t.occupied = data[i].occupied;
                     t.urgent = data[i].urgent;
+                    // console.log(t.output == "eDP-1" && t.id <= 9);
                 }
             }
         }
