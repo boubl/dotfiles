@@ -6,8 +6,7 @@ Text {
     color: Colors.dark_medium.fg
     renderType: Text.NativeRendering
     font {
-        family: "Bricolage Grotesque"
-        // family: "Giphurs"
+        family: "Jost*"
         pointSize: 12
     }
 }

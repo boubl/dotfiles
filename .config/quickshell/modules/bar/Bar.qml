@@ -16,7 +16,7 @@ Scope {
             id: root
             required property var modelData
             screen: modelData
-            exclusiveZone: 20
+            exclusiveZone: 30
 
             color: "transparent"
 
@@ -26,7 +26,7 @@ Scope {
                 right: true
             }
 
-            implicitHeight: 60
+            implicitHeight: 30
 
             CCWindow {
                 anchor.window: root
@@ -35,20 +35,7 @@ Scope {
 
             Rectangle {
                 anchors.fill: parent
-                gradient: Gradient {
-                    GradientStop {
-                        position: 0.0
-                        color: Qt.alpha(Colors.dark_medium.bg_dim, 0.8)
-                    }
-                    GradientStop {
-                        position: root.exclusiveZone / root.implicitHeight
-                        color: Qt.alpha(Colors.dark_medium.bg_dim, 0.4)
-                    }
-                    GradientStop {
-                        position: 1.0
-                        color: Qt.alpha(Colors.dark_medium.bg_dim, 0)
-                    }
-                }
+                color: Qt.alpha(Colors.dark_medium.bg_dim, 0.8)
             }
 
             Item {

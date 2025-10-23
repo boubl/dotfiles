@@ -5,16 +5,14 @@ systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
 systemctl --user restart xdg-desktop-portal
 
-riverctl spawn swayidle
-riverctl spawn mako
-riverctl spawn swww-daemon
-riverctl spawn "swww img ~/Wallpapers/79784339_あすてろid.png"
-# riverctl spawn "wlr-randr --output eDP-1 --scale 1.7"
+riverctl spawn hypridle
+# riverctl spawn mako
 way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1 &
+riverctl spawn swww-daemon
+swww img ~/Wallpapers/79784339_あすてろid.png
 
 # Quickshell stuff
 riverctl spawn qs
-# riverctl spawn "qs -p ~/.config/quickshell/activate_linux.qml"
 
 # Input stuff
 riverctl input pointer-1452-850-Apple_MTP_multi-touch disable-while-typing disabled

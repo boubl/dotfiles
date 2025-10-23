@@ -87,4 +87,4 @@ SETUVAR fish_pager_color_selected_background:\x2d\x2dbackground\x3d283457
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/home/boubli/\x2elocal/bin\x1e/var/lib/flatpak/exports/bin\x1e/home/boubli/\x2ecomposer/vendor/bin\x1e/Users/boubli/\x2elocal/bin\x1e/Users/boubli/Development/zls/zig\x2dout/bin\x1e/opt/homebrew/bin\x1e/Users/boubli/\x2ecargo/bin\x1e/home/boubli/\x2ecargo/bin\x1e/usr/bin
+SETUVAR fish_user_paths:/home/boubli/\x2elocal/bin\x1e/var/lib/flatpak/exports/bin\x1e/home/boubli/\x2ecomposer/vendor/bin\x1e/Users/boubli/\x2elocal/bin\x1e/Users/boubli/Development/zls/zig\x2dout/bin\x1e/opt/homebrew/bin\x1e/Users/boubli/\x2ecargo/bin\x1e/home/boubli/\x2ecargo/bin\x1e/usr/bin\x1e/nix/store/3kdw4i64i4xcihalcwinv5laq01hz8dq\x2dghostty\x2d1\x2e2\x2e2/bin
