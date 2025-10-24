@@ -26,17 +26,17 @@
         }
     }
   },
-  "logo": {
-    "type": "auto",
-    "source": "~/.config/fastfetch/cat.txt",
-    "padding": {
-        "top": 1,
-        "left": 1,
-    },
-    "color": {
-      "1": "white",
-    }
-  },
+  // "logo": {
+  //   "type": "auto",
+  //   "source": "~/.config/fastfetch/cat.txt",
+  //   "padding": {
+  //       "top": 1,
+  //       "left": 1,
+  //   },
+  //   "color": {
+  //     "1": "white",
+  //   }
+  // },
   "modules": [
     "break",
     "break",

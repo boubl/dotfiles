@@ -5,6 +5,7 @@ import Quickshell.Services.Mpris
 
 import qs.utils
 import qs.utils.debug
+import qs.services.matugen
 
 Rectangle {
     id: root
@@ -12,7 +13,7 @@ Rectangle {
     Layout.fillWidth: true
     // height: 50
     radius: 15
-    color: Colors.dark_medium.bg2
+    color: Matugen.system.surface_container
     clip: true
 
     RowLayout {
@@ -32,7 +33,7 @@ Rectangle {
             layer.enabled: true
             layer.smooth: true
             radius: 10
-            color: Colors.dark_medium.grey0
+            color: Matugen.system.secondary_container
             Image {
                 id: albumArt
                 anchors.fill: parent

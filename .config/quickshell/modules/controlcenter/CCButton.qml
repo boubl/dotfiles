@@ -1,5 +1,6 @@
 import QtQuick
 
+import qs.services.matugen
 import qs.utils
 
 Rectangle {
@@ -9,8 +10,8 @@ Rectangle {
 
     signal clicked
 
-    radius: Math.min(height, width) / 2
-    color: mouseArea.containsMouse ? mouseArea.pressed ? Colors.dark_medium.bg1 : Colors.dark_medium.bg3 : Colors.dark_medium.bg2
+    radius: mouseArea.pressed ? height / 3 : height / 2
+    color: mouseArea.pressed ? Qt.darker(Matugen.system.secondary_container, 1.2) : Matugen.system.secondary_container
 
     Row {
         padding: 10
@@ -21,20 +22,27 @@ Rectangle {
             text: root.icon
             font.family: "Symbols Nerd Font"
             font.pointSize: 16
-            color: Colors.dark_medium.fg
+            color: Matugen.system.on_secondary_container
         }
         StylizedText {
             anchors.verticalCenter: parent.verticalCenter
             text: root.text
             font.pointSize: 12
             visible: root.text.length > 0
+            color: Matugen.system.on_secondary_container
         }
     }
 
+    Behavior on radius {
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.OutExpo
+        }
+    }
     Behavior on color {
-        enabled: !mouseArea.pressed
         ColorAnimation {
             duration: 200
+            easing.type: Easing.OutExpo
         }
     }
 

@@ -6,19 +6,18 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 systemctl --user restart xdg-desktop-portal
 
 riverctl spawn hypridle
-# riverctl spawn mako
 way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1 &
 riverctl spawn swww-daemon
-swww img ~/Wallpapers/79784339_あすてろid.png
+# Works better with `riverctl spawn` then without for some reason
+riverctl spawn swww img ~/Wallpapers/79784339_あすてろid.png
 
-# Quickshell stuff
+# Quickshell
 riverctl spawn qs
 
 # Input stuff
 riverctl input pointer-1452-850-Apple_MTP_multi-touch disable-while-typing disabled
 
 # My addiction to zig is not getting better
-# riverctl map normal Super+Shift Return spawn foot
 riverctl map normal Super+Shift Return spawn ghostty
 riverctl map normal Super R spawn fuzzel
 

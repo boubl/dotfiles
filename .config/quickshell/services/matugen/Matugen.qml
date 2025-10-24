@@ -5,7 +5,7 @@ import Quickshell
 import QtQuick
 
 Scope {
-    property bool darkMode: Application.styleHints.colorScheme === Qt.ColorScheme.Dark
+    property bool darkMode: true //Application.styleHints.colorScheme === Qt.ColorScheme.Dark
     property ColorScheme system: darkMode ? this.dark : this.light
     IpcHandler {
         target: "rect"
@@ -31,41 +31,15 @@ Scope {
     }
     property ColorScheme dark: ColorScheme {
         background: "#11140f"
-        error: "#ffb4ab"
-        error_container: "#93000a"
-        inverse_on_surface: "#2e322b"
-        inverse_primary: "#416835"
-        inverse_surface: "#e1e4da"
         on_background: "#e1e4da"
+
+        error: "#ffb4ab"
         on_error: "#690005"
+        error_container: "#93000a"
         on_error_container: "#ffdad6"
-        on_primary: "#13380a"
-        on_primary_container: "#c1efaf"
-        on_primary_fixed: "#022100"
-        on_primary_fixed_variant: "#2a4f1f"
-        on_secondary: "#273421"
-        on_secondary_container: "#d7e8cc"
-        on_secondary_fixed: "#121f0e"
-        on_secondary_fixed_variant: "#3d4b37"
-        on_surface: "#e1e4da"
-        on_surface_variant: "#c3c8bc"
-        on_tertiary: "#003739"
-        on_tertiary_container: "#bcebee"
-        on_tertiary_fixed: "#002021"
-        on_tertiary_fixed_variant: "#1e4e50"
-        outline: "#8d9387"
-        outline_variant: "#43483f"
-        primary: "#a6d394"
-        primary_container: "#2a4f1f"
-        primary_fixed: "#c1efaf"
-        primary_fixed_dim: "#a6d394"
-        scrim: "#000000"
-        secondary: "#bbcbb1"
-        secondary_container: "#3d4b37"
-        secondary_fixed: "#d7e8cc"
-        secondary_fixed_dim: "#bbcbb1"
-        shadow: "#000000"
+
         surface: "#11140f"
+        on_surface: "#e1e4da"
         surface_bright: "#373a34"
         surface_container: "#1d211b"
         surface_container_high: "#272b25"
@@ -75,10 +49,45 @@ Scope {
         surface_dim: "#11140f"
         surface_tint: "#a6d394"
         surface_variant: "#43483f"
+        on_surface_variant: "#c3c8bc"
+
+        inverse_surface: "#e1e4da"
+        inverse_on_surface: "#2e322b"
+
+        primary: "#a6d394"
+        on_primary: "#13380a"
+        primary_container: "#2a4f1f"
+        on_primary_container: "#c1efaf"
+        primary_fixed: "#c1efaf"
+        on_primary_fixed: "#022100"
+        primary_fixed_dim: "#a6d394"
+        on_primary_fixed_variant: "#2a4f1f"
+
+        inverse_primary: "#416835"
+
+        secondary: "#bbcbb1"
+        on_secondary: "#273421"
+        secondary_container: "#3d4b37"
+        on_secondary_container: "#d7e8cc"
+        secondary_fixed: "#d7e8cc"
+        on_secondary_fixed: "#121f0e"
+        secondary_fixed_dim: "#bbcbb1"
+        on_secondary_fixed_variant: "#3d4b37"
+
         tertiary: "#a0cfd1"
+        on_tertiary: "#003739"
         tertiary_container: "#1e4e50"
+        on_tertiary_container: "#bcebee"
         tertiary_fixed: "#bcebee"
+        on_tertiary_fixed: "#002021"
         tertiary_fixed_dim: "#a0cfd1"
+        on_tertiary_fixed_variant: "#1e4e50"
+
+        outline: "#8d9387"
+        outline_variant: "#43483f"
+
+        scrim: "#000000"
+        shadow: "#000000"
     }
     property ColorScheme light: ColorScheme {
         background: "#f8fbf0"

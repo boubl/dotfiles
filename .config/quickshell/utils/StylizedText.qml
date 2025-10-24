@@ -1,12 +1,13 @@
 import QtQuick
 
+import qs.services.matugen
 import qs.utils
 
 Text {
-    color: Colors.dark_medium.fg
+    color: Matugen.system.on_surface
     renderType: Text.NativeRendering
     font {
-        family: "Jost*"
+        family: "Host Grotesk"
         pointSize: 12
     }
 }

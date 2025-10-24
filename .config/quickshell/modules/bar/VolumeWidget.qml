@@ -1,5 +1,6 @@
 import QtQuick
 
+import qs.services.matugen
 import qs.utils
 import qs.services.volume
 
@@ -12,6 +13,13 @@ Item {
 
     property real volume: VolumeTracker.volume
     property real muted: VolumeTracker.muted
+
+    Behavior on volume {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutExpo
+        }
+    }
 
     Canvas {
         id: canvas
@@ -29,24 +37,24 @@ Item {
             var spacing = 0.5;
 
             if (sine.volume < 0.89) {
-                ctx.strokeStyle = Colors.dark_medium.bg2;
+                ctx.strokeStyle = Matugen.system.secondary_container;
                 ctx.beginPath();
                 ctx.arc(width / 2, height / 2, radius, start - spacing, end + spacing, true);
                 ctx.stroke();
             }
 
-            var color = sine.muted ? Colors.dark_medium.bg4 : Colors.dark_medium.statusline1;
+            var color = sine.muted ? Matugen.system.secondary_container : Matugen.system.secondary;
             ctx.strokeStyle = color;
             ctx.beginPath();
             ctx.arc(width / 2, height / 2, radius, start, end);
             ctx.stroke();
 
-            ctx.fillStyle = Colors.dark_medium.fg;
-            ctx.font = "10pt Giphurs";
+            ctx.fillStyle = Matugen.system.secondary;
+            ctx.font = "10pt 'Symbols Nerd Font'";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             var text = sine.muted ? "󰝟" : "󰕾";
-            ctx.fillText(text, width / 2 - 0.7, height / 2 + 1.7);
+            ctx.fillText(text, width / 2, height / 2 + 2);
         }
     }
     onVolumeChanged: canvas.requestPaint()

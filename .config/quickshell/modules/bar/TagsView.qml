@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 
 import qs.services.river
+import qs.services.matugen
 import qs.utils
 
 Row {
@@ -16,7 +17,7 @@ Row {
 
         Rectangle {
             id: tagRoot
-            color: modelData.urgent ? Colors.dark_medium.red : modelData.focused ? Colors.dark_medium.bg4 : Colors.dark_medium.bg2
+            color: modelData.urgent ? Matugen.system.error : modelData.focused ? Matugen.system.primary : Matugen.system.primary_container
             radius: 10
             anchors.verticalCenter: parent.verticalCenter
             implicitHeight: modelData.focused ? 20 : 16
@@ -33,7 +34,7 @@ Row {
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pointSize: 10
                 font.bold: true
-                color: modelData.urgent ? Colors.dark_medium.bg0 : Colors.dark_medium.fg
+                color: modelData.urgent ? Matugen.system.on_error : modelData.focused ? Matugen.system.on_primary : Matugen.system.on_primary_container
                 opacity: tagRoot.implicitWidth > 3
                 Behavior on opacity {
                     NumberAnimation {
@@ -41,6 +42,12 @@ Row {
                         easing.type: Easing.OutExpo
                     }
                 }
+            Behavior on color {
+                ColorAnimation {
+                    duration: 250
+                    easing.type: Easing.OutExpo
+                }
+            }
             }
 
             Behavior on color {

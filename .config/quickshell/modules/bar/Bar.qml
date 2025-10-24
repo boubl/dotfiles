@@ -33,10 +33,10 @@ Scope {
                 active: ShellContext.isControlCenterOpen
             }
 
-            Rectangle {
-                anchors.fill: parent
-                color: Qt.alpha(Colors.dark_medium.bg_dim, 0.8)
-            }
+            // Rectangle {
+            //     anchors.fill: parent
+            //     color: Matugen.system.surface
+            // }
 
             Item {
                 implicitWidth: parent.width
@@ -84,6 +84,7 @@ Scope {
                     VolumeWidget {}
 
                     BatteryWidget {
+                        anchors.verticalCenter: parent.verticalCenter
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {

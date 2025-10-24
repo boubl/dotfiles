@@ -4,12 +4,13 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.utils
+import qs.services.matugen
 
 PopupWindow {
     id: root
 
-    property int cellWidth: 50
-    property int cellHeight: 50
+    property int cellWidth: 60
+    property int cellHeight: 70
     required property bool active
     visible: rectRoot.opacity > 0
 
@@ -25,11 +26,7 @@ PopupWindow {
     Rectangle {
         id: rectRoot
         anchors.fill: parent
-        color: Colors.dark_medium.bg0
-        border {
-            color: Colors.dark_medium.grey1
-            width: 1
-        }
+        color: Matugen.system.surface
         radius: 20
         opacity: root.active
 
