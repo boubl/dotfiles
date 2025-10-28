@@ -4,8 +4,10 @@ import Quickshell.Io
 import Quickshell
 import QtQuick
 
+import qs.utils
+
 Scope {
-    property bool darkMode: true //Application.styleHints.colorScheme === Qt.ColorScheme.Dark
+    property bool darkMode: ShellContext.darkMode //Application.styleHints.colorScheme === Qt.ColorScheme.Dark
     property ColorScheme system: darkMode ? this.dark : this.light
     IpcHandler {
         target: "rect"

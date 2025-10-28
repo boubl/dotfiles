@@ -22,7 +22,7 @@ Rectangle {
         Text {
             anchors.verticalCenter: parent.verticalCenter
             text: root.icon
-            font.family: "Symbols Nerd Font"
+            font.family: "lucide"
             font.pointSize: 16
             color: checked ? Matugen.system.on_secondary : Matugen.system.on_secondary_container
             Behavior on color {

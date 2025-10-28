@@ -9,7 +9,9 @@ riverctl spawn hypridle
 way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1 &
 riverctl spawn swww-daemon
 # Works better with `riverctl spawn` then without for some reason
-riverctl spawn swww img ~/Wallpapers/79784339_あすてろid.png
+riverctl spawn "swww img ~/Wallpapers/79784339_あすてろid.png"
+
+riverctl xcursor-theme Moga-Candy-Black 32
 
 # Quickshell
 riverctl spawn qs

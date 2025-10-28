@@ -48,15 +48,16 @@ Item {
             ctx.beginPath();
             ctx.arc(width / 2, height / 2, radius, start, end);
             ctx.stroke();
-
-            ctx.fillStyle = Matugen.system.secondary;
-            ctx.font = "10pt 'Symbols Nerd Font'";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            var text = sine.muted ? "󰝟" : "󰕾";
-            ctx.fillText(text, width / 2, height / 2 + 2);
         }
     }
     onVolumeChanged: canvas.requestPaint()
     onMutedChanged: canvas.requestPaint()
+
+    Text {
+        anchors.centerIn: canvas
+        font.family: "lucide"
+        font.pointSize: 10
+        text: sine.muted ? Lucide.volume_off : Lucide.volume_2
+        color: Matugen.system.secondary
+    }
 }

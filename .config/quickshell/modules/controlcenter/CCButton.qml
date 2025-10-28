@@ -20,7 +20,7 @@ Rectangle {
         Text {
             anchors.verticalCenter: parent.verticalCenter
             text: root.icon
-            font.family: "Symbols Nerd Font"
+            font.family: "lucide"
             font.pointSize: 16
             color: Matugen.system.on_secondary_container
         }

@@ -98,9 +98,13 @@ Scope {
                 Row {
                     anchors.centerIn: parent
                     StylizedText {
-                        id: titleText
-                        text: Bedload.focusedViewTitle
+                        text: Lucide.airplay //""
+                        font.family: "lucide"
                     }
+                    // StylizedText {
+                    //     id: titleText
+                    //     text: Bedload.focusedViewTitle
+                    // }
                 }
             }
         }

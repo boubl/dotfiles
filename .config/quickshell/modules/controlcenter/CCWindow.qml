@@ -55,7 +55,17 @@ PopupWindow {
                 Layout.rowSpan: 1
                 Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
                 Layout.preferredHeight: root.cellHeight
-                icon: ""
+                icon: Lucide.sun_moon
+                text: "Dark mode"
+                checked: ShellContext.darkMode
+                onClicked: ShellContext.darkMode = checked
+            }
+            CCSwitch {
+                Layout.columnSpan: 3
+                Layout.rowSpan: 1
+                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
+                Layout.preferredHeight: root.cellHeight
+                icon: Lucide.moon
                 text: "Do not disturb"
                 checked: ShellContext.dndMode
                 onClicked: ShellContext.dndMode = checked
@@ -64,7 +74,7 @@ PopupWindow {
                 Layout.columnSpan: 1
                 Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
                 Layout.preferredHeight: root.cellHeight
-                icon: ""
+                icon: Lucide.lock
 
                 Process {
                     id: lockCommand
@@ -77,7 +87,7 @@ PopupWindow {
                 Layout.columnSpan: 1
                 Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
                 Layout.preferredHeight: root.cellHeight
-                icon: ""
+                icon: Lucide.rotate_ccw
 
                 Process {
                     id: restartCommand
@@ -87,10 +97,10 @@ PopupWindow {
                 onClicked: restartCommand.startDetached()
             }
             CCButton {
-                Layout.columnSpan: 1
+                Layout.columnSpan: 2
                 Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
                 Layout.preferredHeight: root.cellHeight
-                icon: ""
+                icon: Lucide.power
 
                 Process {
                     id: poweroffCommand

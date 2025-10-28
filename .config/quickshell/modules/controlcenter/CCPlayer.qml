@@ -105,7 +105,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 15
                 Text {
-                    color: Colors.dark_medium.fg
+                    color: Matugen.system.on_surface
                     Layout.preferredWidth: 30
                     Layout.preferredHeight: 30
                     horizontalAlignment: Text.AlignHCenter
@@ -119,7 +119,7 @@ Rectangle {
                     }
                 }
                 Text {
-                    color: Colors.dark_medium.fg
+                    color: Matugen.system.on_surface
                     Layout.preferredWidth: 30
                     Layout.preferredHeight: 30
                     horizontalAlignment: Text.AlignHCenter
@@ -133,7 +133,7 @@ Rectangle {
                     }
                 }
                 Text {
-                    color: Colors.dark_medium.fg
+                    color: Matugen.system.on_surface
                     Layout.preferredWidth: 30
                     Layout.preferredHeight: 30
                     horizontalAlignment: Text.AlignHCenter
