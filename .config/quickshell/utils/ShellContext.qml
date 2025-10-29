@@ -9,6 +9,7 @@ Scope {
     property bool isControlCenterOpen: false
     property bool dndMode: false
     property bool darkMode: true
+    property bool caffeinated: false
 
     Process {
         id: darkmanSet
