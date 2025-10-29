@@ -32,21 +32,18 @@ Item {
             ctx.lineCap = "round";
 
             var radius = Math.min(width, height) / 2 - ctx.lineWidth;
-            var start = -Math.PI / 2;
-            var end = (2 * Math.PI) * sine.volume + start + 0.01;
-            var spacing = 0.5;
+            var start = 3 * Math.PI / 4;
+            var end = 9 * Math.PI / 4;
 
-            if (sine.volume < 0.89) {
-                ctx.strokeStyle = Matugen.system.secondary_container;
-                ctx.beginPath();
-                ctx.arc(width / 2, height / 2, radius, start - spacing, end + spacing, true);
-                ctx.stroke();
-            }
+            ctx.strokeStyle = Matugen.system.secondary_container;
+            ctx.beginPath();
+            ctx.arc(width / 2, height / 2, radius, start, end);
+            ctx.stroke();
 
             var color = sine.muted ? Matugen.system.secondary_container : Matugen.system.secondary;
             ctx.strokeStyle = color;
             ctx.beginPath();
-            ctx.arc(width / 2, height / 2, radius, start, end);
+            ctx.arc(width / 2, height / 2, radius, start, start + (end - start) * sine.volume);
             ctx.stroke();
         }
     }
