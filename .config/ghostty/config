@@ -14,5 +14,5 @@ quit-after-last-window-closed = false
 macos-option-as-alt = left
 keybind = global:cmd+\=toggle_quick_terminal
 
-theme = "tokyonight_night"
+theme = light:TokyoNight Day,dark:TokyoNight Night
 window-decoration = none

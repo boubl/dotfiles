@@ -1,0 +1,9 @@
+[user]
+    name = boubl
+    email = 49991411+boubl@users.noreply.github.com
+[difftool]
+    prompt = true
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
