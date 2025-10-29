@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import QtQuick
@@ -27,6 +28,11 @@ Scope {
             }
 
             implicitHeight: 30
+
+            IdleInhibitor {
+                enabled: ShellContext.caffeinated
+                window: root
+            }
 
             CCWindow {
                 anchor.window: root
