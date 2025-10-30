@@ -80,10 +80,34 @@ Scope {
                     Repeater {
                         model: SystemTray.items.values
 
-                        IconImage {
+                        Item {
                             anchors.verticalCenter: parent.verticalCenter
-                            source: modelData.icon
-                            implicitSize: 20
+                            implicitWidth: 20
+                            implicitHeight: 20
+                            IconImage {
+                                id: trayImage
+                                anchors.fill: parent
+                                anchors.verticalCenter: parent.verticalCenter
+                                source: modelData.icon
+                                asynchronous: true
+                            }
+                            MouseArea {
+                                anchors.fill: trayImage
+                                acceptedButtons: Qt.AllButtons
+                                onClicked: e => {
+                                    switch (e.button) {
+                                        case Qt.LeftButton:
+                                            modelData.activate();
+                                            break;
+                                        case Qt.MiddleButton:
+                                            modelData.secondaryActivate()
+                                            break;
+                                        case Qt.RightButton:
+                                            modelData.display(root, 0, 0)
+                                            break;
+                                    }
+                                }
+                            }
                         }
                     }
 

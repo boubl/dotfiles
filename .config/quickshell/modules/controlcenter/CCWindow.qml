@@ -58,7 +58,7 @@ PopupWindow {
                 icon: Lucide.moon
                 text: "Do not disturb"
                 checked: ShellContext.dndMode
-                onClicked: ShellContext.dndMode = checked
+                onClicked: checked => ShellContext.dndMode = checked
             }
             CCButton {
                 Layout.columnSpan: 1
@@ -107,7 +107,7 @@ PopupWindow {
                 icon: Lucide.sun_moon
                 text: "Dark mode"
                 checked: ShellContext.darkMode
-                onClicked: ShellContext.darkMode = checked
+                onClicked: checked => ShellContext.darkMode = checked
             }
             CCSwitch {
                 Layout.columnSpan: 3
@@ -117,7 +117,7 @@ PopupWindow {
                 icon: Lucide.coffee
                 text: "Keep me awake"
                 checked: ShellContext.caffeinated
-                onClicked: ShellContext.caffeinated = checked
+                onClicked: checked => ShellContext.caffeinated = checked
             }
             CCPlayer {
                 Layout.columnSpan: 6
