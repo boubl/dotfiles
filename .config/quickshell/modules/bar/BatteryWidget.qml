@@ -62,10 +62,10 @@ Item {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 color: Matugen.system.on_primary
-                text: "󱐋"
-                font.family: "Symbols Nerd Font"
-                font.pointSize: 11
-                visible: UPower.displayDevice.state == UPowerDeviceState.Charging
+                text: Lucide.zap
+                font.family: "lucide"
+                font.pointSize: 7
+                visible: UPower.displayDevice.state == UPowerDeviceState.Charging || UPower.displayDevice.state == UPowerDeviceState.FullyCharged
             }
         }
     }
@@ -91,10 +91,10 @@ Item {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 color: Matugen.system.on_primary_container
-                text: "󱐋"
-                font.family: "Symbols Nerd Font"
-                font.pointSize: 11
-                visible: UPower.displayDevice.state == UPowerDeviceState.Charging
+                text: Lucide.zap
+                font.family: "lucide"
+                font.pointSize: 7
+                visible: UPower.displayDevice.state == UPowerDeviceState.Charging || UPower.displayDevice.state == UPowerDeviceState.FullyCharged
             }
         }
     }

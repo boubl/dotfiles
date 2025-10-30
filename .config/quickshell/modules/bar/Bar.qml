@@ -103,7 +103,10 @@ Scope {
                                             modelData.secondaryActivate()
                                             break;
                                         case Qt.RightButton:
-                                            modelData.display(root, 0, 0)
+                                            if (modelData.hasMenu) {
+                                                var coords = this.mapToGlobal(mouseX, mouseY);
+                                                modelData.display(root, coords.x, coords.y);
+                                            }
                                             break;
                                     }
                                 }
@@ -128,13 +131,9 @@ Scope {
                 Row {
                     anchors.centerIn: parent
                     StylizedText {
-                        text: Lucide.airplay //""
-                        font.family: "lucide"
+                        id: titleText
+                        text: Bedload.focusedViewTitle
                     }
-                    // StylizedText {
-                    //     id: titleText
-                    //     text: Bedload.focusedViewTitle
-                    // }
                 }
             }
         }
