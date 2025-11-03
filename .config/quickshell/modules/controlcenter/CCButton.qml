@@ -36,7 +36,7 @@ Item {
         id: bg
         anchors.fill: parent
 
-        radius: mouseArea.pressed ? height / 3 : height / 2
+        radius: 8
         color: mouseArea.pressed ? Qt.darker(Matugen.system.secondary_container, 1.2) : Matugen.system.secondary_container
 
         Row {

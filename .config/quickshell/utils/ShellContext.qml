@@ -10,6 +10,7 @@ Scope {
     property bool dndMode: false
     property bool darkMode: true
     property bool caffeinated: false
+    property bool wallpaper: false
 
     Process {
         id: darkmanSet

@@ -7,30 +7,58 @@ import QtQuick
 import qs.utils
 
 Scope {
+    id: root
     property bool darkMode: ShellContext.darkMode //Application.styleHints.colorScheme === Qt.ColorScheme.Dark
     property ColorScheme system: darkMode ? this.dark : this.light
-    IpcHandler {
-        target: "rect"
+    property string backgroundImage: ""
 
-        function setColor(color: color): void {
-            rect.color = color;
-        }
-        function getColor(): color {
-            return rect.color;
-        }
-        function setAngle(angle: real): void {
-            rect.rotation = angle;
-        }
-        function getAngle(): real {
-            return rect.rotation;
-        }
-        function setRadius(radius: int): void {
-            rect.radius = radius;
-        }
-        function getRadius(): int {
-            return rect.radius;
+    onBackgroundImageChanged: root.updateColors()
+
+    function updateColors() {
+        matugenUpdate.running = true;
+    }
+
+    Process {
+        id: matugenUpdate
+        // command: ["sh", "-c", "matugen image --dry-run -j hex $(awww query | sed -n 's/.*image:[[:space:]]*\\(\\/[^[:space:]]*\\).*/\\1/p')"]
+        command: ["sh", "-c", 'matugen image --dry-run -j hex ' + root.backgroundImage]
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                console.log(matugenUpdate.command[2]);
+                console.log(text);
+
+                var colors = JSON.parse(this.text);
+                if (colors.colors) {
+                    for (var key in colors.colors.dark) {
+                        if (root.dark.hasOwnProperty(key)) {
+                            root.dark[key] = Qt.color(colors.colors.dark[key]);
+                        }
+                    }
+                    for (var key in colors.colors.light) {
+                        if (root.light.hasOwnProperty(key)) {
+                            root.light[key] = Qt.color(colors.colors.light[key]);
+                        }
+                    }
+                }
+            }
         }
     }
+
+    Process {
+        id: awwwQueryCommand
+        command: ["awww", "query"]
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                console.log(this.text);
+                var match = this.text.match(/(?:image: )\/\S*/);
+                console.log(match);
+                root.backgroundImage = match ? match[1] : "";
+            }
+        }
+    }
+
     property ColorScheme dark: ColorScheme {
         background: "#11140f"
         on_background: "#e1e4da"

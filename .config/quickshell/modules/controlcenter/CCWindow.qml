@@ -99,6 +99,22 @@ PopupWindow {
 
                 onClicked: poweroffCommand.startDetached()
             }
+            CCButton {
+                Layout.columnSpan: 1
+                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
+                Layout.preferredHeight: root.cellHeight
+                icon: Lucide.wallpaper
+
+                onClicked: ShellContext.wallpaper = true
+            }
+            CCButton {
+                Layout.columnSpan: 1
+                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
+                Layout.preferredHeight: root.cellHeight
+                icon: Lucide.refrigerator
+
+                onClicked: Matugen.updateColors()
+            }
             CCSwitch {
                 Layout.columnSpan: 3
                 Layout.rowSpan: 1

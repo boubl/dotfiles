@@ -37,7 +37,7 @@ Rectangle {
             Image {
                 id: albumArt
                 anchors.fill: parent
-                source: Mpris.players.values[0].trackArtUrl
+                source: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackArtUrl : ""
                 fillMode: Image.PreserveAspectCrop
                 layer.enabled: true
                 layer.effect: MultiEffect {
@@ -93,7 +93,7 @@ Rectangle {
                 }
             }
             StylizedText {
-                text: Mpris.players.values[0].trackArtist
+                text: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackArtist : ""
                 visible: Mpris.players.values.length > 0
                 font.pointSize: 12
             }

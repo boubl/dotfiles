@@ -70,6 +70,8 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+vim.opt.tabstop = 4
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -401,15 +403,15 @@ require('lazy').setup {
           },
         },
       })
+      vim.lsp.enable 'zls'
 
-      vim.lsp.config('qmlls', {
-        cmd = { 'qmlls6', '-E' },
-      })
+      vim.lsp.config('qmlls', {})
+      vim.lsp.enable 'qmlls'
+
+      vim.lsp.config('gopls', {})
+      vim.lsp.enable 'gopls'
 
       vim.lsp.config('clangd', {})
-
-      vim.lsp.enable 'zls'
-      vim.lsp.enable 'qmlls'
       vim.lsp.enable 'clangd'
 
       vim.api.nvim_create_autocmd('LspAttach', {

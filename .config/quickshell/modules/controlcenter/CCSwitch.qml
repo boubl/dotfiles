@@ -38,7 +38,7 @@ Item {
         id: bg
         anchors.fill: parent
 
-        radius: checked ? height / 3 : height / 2
+        radius: 8
         color: checked ? Matugen.system.secondary : Matugen.system.secondary_container
 
         Row {

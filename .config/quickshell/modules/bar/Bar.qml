@@ -39,10 +39,10 @@ Scope {
                 active: ShellContext.isControlCenterOpen
             }
 
-            // Rectangle {
-            //     anchors.fill: parent
-            //     color: Matugen.system.surface
-            // }
+            Rectangle {
+                anchors.fill: parent
+                color: Matugen.system.surface
+            }
 
             Item {
                 implicitWidth: parent.width
@@ -96,18 +96,18 @@ Scope {
                                 acceptedButtons: Qt.AllButtons
                                 onClicked: e => {
                                     switch (e.button) {
-                                        case Qt.LeftButton:
-                                            modelData.activate();
-                                            break;
-                                        case Qt.MiddleButton:
-                                            modelData.secondaryActivate()
-                                            break;
-                                        case Qt.RightButton:
-                                            if (modelData.hasMenu) {
-                                                var coords = this.mapToGlobal(mouseX, mouseY);
-                                                modelData.display(root, coords.x, coords.y);
-                                            }
-                                            break;
+                                    case Qt.LeftButton:
+                                        modelData.activate();
+                                        break;
+                                    case Qt.MiddleButton:
+                                        modelData.secondaryActivate();
+                                        break;
+                                    case Qt.RightButton:
+                                        if (modelData.hasMenu) {
+                                            var coords = this.mapToGlobal(mouseX, mouseY);
+                                            modelData.display(root, coords.x, coords.y);
+                                        }
+                                        break;
                                     }
                                 }
                             }
