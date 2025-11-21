@@ -10,7 +10,7 @@ Scope {
     id: root
     property bool darkMode: ShellContext.darkMode //Application.styleHints.colorScheme === Qt.ColorScheme.Dark
     property ColorScheme system: darkMode ? this.dark : this.light
-    property string backgroundImage: ""
+    property string backgroundImage
 
     onBackgroundImageChanged: root.updateColors()
 
@@ -20,14 +20,11 @@ Scope {
 
     Process {
         id: matugenUpdate
-        // command: ["sh", "-c", "matugen image --dry-run -j hex $(awww query | sed -n 's/.*image:[[:space:]]*\\(\\/[^[:space:]]*\\).*/\\1/p')"]
-        command: ["sh", "-c", 'matugen image --dry-run -j hex ' + root.backgroundImage]
+        command: ["sh", "-c", "matugen image --dry-run -j hex $(awww query | sed -n 's/.*image:[[:space:]]*\\(\\/[^[:space:]]*\\).*/\\1/p')"]
+        //command: ['matugen', 'image', '--dry-run', '-j', 'hex', root.backgroundImage]
 
         stdout: StdioCollector {
             onStreamFinished: {
-                console.log(matugenUpdate.command[2]);
-                console.log(text);
-
                 var colors = JSON.parse(this.text);
                 if (colors.colors) {
                     for (var key in colors.colors.dark) {
@@ -48,12 +45,11 @@ Scope {
     Process {
         id: awwwQueryCommand
         command: ["awww", "query"]
+        running: true
 
         stdout: StdioCollector {
             onStreamFinished: {
-                console.log(this.text);
-                var match = this.text.match(/(?:image: )\/\S*/);
-                console.log(match);
+                var match = this.text.match(/(?:image: )(\/\S*)/);
                 root.backgroundImage = match ? match[1] : "";
             }
         }

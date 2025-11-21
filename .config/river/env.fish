@@ -1,13 +1,15 @@
 # Environment stuff
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
-systemctl --user restart xdg-desktop-portal
-
-# Idle management
-riverctl spawn hypridle
+set DIR (dirname (status -f))
+riverctl spawn "fish $DIR/xdg.fish"
 
 # Display management
 riverctl spawn "sh -c way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1"
+
+# Workaround for asahi-audio not being started at launch
+riverctl spawn "mpv $DIR/silent.wav"
+
+# Idle management
+riverctl spawn hypridle
 
 # Cursor
 riverctl xcursor-theme Moga-Candy-Black 32

@@ -1,0 +1,33 @@
+# Colors - https://github.com/olimorris/onedarkpro.nvim
+
+# Syntax highlighting
+fish_color_normal abb2bf
+fish_color_command 2bbac5
+fish_color_keyword d55fde
+fish_color_quote e5c07b
+fish_color_redirection abb2bf
+fish_color_end d19a66
+fish_color_option e5c07b
+fish_color_error ef596f
+fish_color_param 61afef
+fish_color_comment 5c6370
+fish_color_selection --background=3a404c
+fish_color_search_match --background=3a404c
+fish_color_operator abb2bf
+fish_color_escape d55fde
+fish_color_autosuggestion 5c6370
+fish_color_cwd 2bbac5
+fish_color_user d55fde
+fish_color_host d19a66
+fish_color_valid_path 89ca78
+fish_color_prefix 61afef
+fish_color_history_current_command e5c07b
+fish_color_history_duration 5c6370
+fish_color_error_background --background=ef596f
+
+ # Completion Pager Colors
+fish_pager_color_progress 5c6370
+fish_pager_color_prefix 2bbac5
+fish_pager_color_completion abb2bf
+fish_pager_color_description 5c6370
+fish_pager_color_selected_background --background=3a404c

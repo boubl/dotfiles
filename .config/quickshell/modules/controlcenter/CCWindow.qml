@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import Quickshell
 import Quickshell.Io
 import QtQuick
@@ -5,121 +7,81 @@ import QtQuick.Layouts
 
 import qs.utils
 import qs.services.matugen
+import qs.services.volume
 
-PopupWindow {
+PanelWindow {
     id: root
 
-    property int cellWidth: 60
-    property int cellHeight: 70
     required property bool active
     visible: rectRoot.opacity > 0
 
-    anchor {
-        rect.x: parentWindow.width - 10
-        rect.y: parentWindow.height + 10
-        gravity: Edges.Bottom | Edges.Left
+    margins {
+        top: 5
+        right: 5
     }
-    implicitWidth: cellWidth * grid.columns + (grid.columns - 1) * grid.columnSpacing + 2 * grid.anchors.margins
-    implicitHeight: grid.implicitHeight + 2 * grid.anchors.margins
+    anchors {
+        top: true
+        right: true
+    }
     color: "transparent"
+    implicitWidth: grid.width + grid.Layout.margins * 2
+    implicitHeight: grid.height + grid.Layout.margins * 2
 
     Rectangle {
         id: rectRoot
         anchors.fill: parent
         color: Matugen.system.surface
-        radius: 20
+        radius: 4
         opacity: root.active
 
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 200
-                easing.type: Easing.OutExpo
-            }
+        border {
+            pixelAligned: false
+            color: Matugen.system.outline_variant
         }
-
+    }
+    ColumnLayout {
+        anchors.fill: parent
         GridLayout {
             id: grid
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                margins: 10
-            }
+            Layout.margins: 8
             columns: 6
             columnSpacing: 5
-            uniformCellWidths: false
+            uniformCellWidths: true
             uniformCellHeights: false
 
             CCSwitch {
                 Layout.columnSpan: 3
-                Layout.rowSpan: 1
-                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
-                Layout.preferredHeight: root.cellHeight
                 icon: Lucide.moon
                 text: "Do not disturb"
                 checked: ShellContext.dndMode
                 onClicked: checked => ShellContext.dndMode = checked
             }
             CCButton {
-                Layout.columnSpan: 1
-                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
-                Layout.preferredHeight: root.cellHeight
                 icon: Lucide.lock
-
                 Process {
                     id: lockCommand
                     command: ["loginctl", "lock-session"]
                 }
-
                 onClicked: lockCommand.startDetached()
             }
             CCButton {
-                Layout.columnSpan: 1
-                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
-                Layout.preferredHeight: root.cellHeight
                 icon: Lucide.rotate_ccw
-
                 Process {
                     id: restartCommand
                     command: ["reboot"]
                 }
-
                 onClicked: restartCommand.startDetached()
             }
             CCButton {
-                Layout.columnSpan: 1
-                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
-                Layout.preferredHeight: root.cellHeight
                 icon: Lucide.power
-
                 Process {
                     id: poweroffCommand
                     command: ["poweroff"]
                 }
-
                 onClicked: poweroffCommand.startDetached()
-            }
-            CCButton {
-                Layout.columnSpan: 1
-                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
-                Layout.preferredHeight: root.cellHeight
-                icon: Lucide.wallpaper
-
-                onClicked: ShellContext.wallpaper = true
-            }
-            CCButton {
-                Layout.columnSpan: 1
-                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
-                Layout.preferredHeight: root.cellHeight
-                icon: Lucide.refrigerator
-
-                onClicked: Matugen.updateColors()
             }
             CCSwitch {
                 Layout.columnSpan: 3
-                Layout.rowSpan: 1
-                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
-                Layout.preferredHeight: root.cellHeight
                 icon: Lucide.sun_moon
                 text: "Dark mode"
                 checked: ShellContext.darkMode
@@ -127,18 +89,32 @@ PopupWindow {
             }
             CCSwitch {
                 Layout.columnSpan: 3
-                Layout.rowSpan: 1
-                Layout.preferredWidth: Layout.columnSpan * root.cellWidth + (Layout.columnSpan - 1) * grid.columnSpacing
-                Layout.preferredHeight: root.cellHeight
                 icon: Lucide.coffee
                 text: "Keep me awake"
                 checked: ShellContext.caffeinated
                 onClicked: checked => ShellContext.caffeinated = checked
             }
+            CCSlider {
+                Layout.columnSpan: 3
+                icon: VolumeTracker.muted ? Lucide.volume_x : Lucide.volume_2
+                value: VolumeTracker.volume
+                disabled: VolumeTracker.muted
+            }
+            CCSlider {
+                Layout.columnSpan: 3
+                icon: Lucide.sun
+                value: VolumeTracker.volume
+            }
+            CCButton {
+                icon: Lucide.wallpaper
+                onClicked: ShellContext.wallpaper = true
+            }
+            CCButton {
+                icon: Lucide.refrigerator
+                onClicked: Matugen.updateColors()
+            }
             CCPlayer {
                 Layout.columnSpan: 6
-                Layout.rowSpan: 3
-                implicitHeight: 50 * 3 + parent.rowSpacing
             }
         }
     }

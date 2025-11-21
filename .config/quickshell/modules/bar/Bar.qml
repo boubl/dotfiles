@@ -1,8 +1,11 @@
+pragma ComponentBehavior: Bound
+
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import QtQuick
+import QtQuick.Layouts
 
 import qs.modules.controlcenter
 import qs.services.river
@@ -35,7 +38,7 @@ Scope {
             }
 
             CCWindow {
-                anchor.window: root
+                // anchor.window: root
                 active: ShellContext.isControlCenterOpen
             }
 
@@ -48,47 +51,44 @@ Scope {
                 implicitWidth: parent.width
                 implicitHeight: 30
                 // Left
-                Row {
+                RowLayout {
+                    spacing: 10
                     anchors.left: parent.left
                     anchors.leftMargin: 10
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    spacing: 10
+                    height: parent.height
 
                     StylizedText {
                         text: Time.time
-                        anchors.verticalCenter: parent.verticalCenter
                     }
                     StylizedText {
                         text: Time.date
-                        anchors.verticalCenter: parent.verticalCenter
                     }
 
                     TagsView {
-                        anchors.verticalCenter: parent.verticalCenter
                         screen: root.screen.name
                     }
                 }
 
                 // Right
-                Row {
-                    spacing: 4
+                RowLayout {
+                    spacing: 10
                     anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
                     anchors.rightMargin: 5
+                    height: parent.height
 
                     Repeater {
                         model: SystemTray.items.values
 
                         Item {
-                            anchors.verticalCenter: parent.verticalCenter
-                            implicitWidth: 20
-                            implicitHeight: 20
+                            id: sysTrayIconRoot
+                            required property SystemTrayItem modelData
+                            Layout.preferredWidth: 20
+                            Layout.preferredHeight: 20
                             IconImage {
                                 id: trayImage
                                 anchors.fill: parent
                                 anchors.verticalCenter: parent.verticalCenter
-                                source: modelData.icon
+                                source: sysTrayIconRoot.modelData.icon
                                 asynchronous: true
                             }
                             MouseArea {
@@ -97,15 +97,15 @@ Scope {
                                 onClicked: e => {
                                     switch (e.button) {
                                     case Qt.LeftButton:
-                                        modelData.activate();
+                                        sysTrayIconRoot.modelData.activate();
                                         break;
                                     case Qt.MiddleButton:
-                                        modelData.secondaryActivate();
+                                        sysTrayIconRoot.modelData.secondaryActivate();
                                         break;
                                     case Qt.RightButton:
-                                        if (modelData.hasMenu) {
+                                        if (sysTrayIconRoot.modelData.hasMenu) {
                                             var coords = this.mapToGlobal(mouseX, mouseY);
-                                            modelData.display(root, coords.x, coords.y);
+                                            sysTrayIconRoot.modelData.display(root, coords.x, coords.y);
                                         }
                                         break;
                                     }
@@ -114,10 +114,7 @@ Scope {
                         }
                     }
 
-                    VolumeWidget {}
-
                     BatteryWidget {
-                        anchors.verticalCenter: parent.verticalCenter
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
@@ -128,11 +125,27 @@ Scope {
                 }
 
                 // Center
-                Row {
+                Rectangle {
                     anchors.centerIn: parent
-                    StylizedText {
-                        id: titleText
-                        text: Bedload.focusedViewTitle
+                    height: childrenRect.height
+                    width: childrenRect.width
+                    radius: 4
+                    color: "transparent"
+                    border {
+                        color: Matugen.system.outline_variant
+                    }
+                    RowLayout {
+                        StylizedText {
+                            id: titleText
+                            color: Matugen.system.on_surface_variant
+                            text: Bedload.focusedViewTitle
+                            elide: Text.ElideMiddle
+                            Layout.maximumWidth: root.width / 3
+                            Layout.rightMargin: 10
+                            Layout.leftMargin: 10
+                            Layout.topMargin: 2
+                            Layout.bottomMargin: 2
+                        }
                     }
                 }
             }

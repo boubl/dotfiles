@@ -1,11 +1,13 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 
 import qs.services.river
 import qs.services.matugen
 import qs.utils
+import qs.utils.debug
 
-Row {
+RowLayout {
     spacing: 2
 
     required property string screen
@@ -15,51 +17,68 @@ Row {
             values: Bedload.tags.filter(tag => tag.output == screen)
         }
 
-        Rectangle {
+        Item {
             id: tagRoot
-            color: modelData.urgent ? Matugen.system.error : modelData.focused ? Matugen.system.primary : Matugen.system.primary_container
-            radius: 10
-            anchors.verticalCenter: parent.verticalCenter
-            implicitHeight: modelData.focused ? 20 : 16
-            implicitWidth: modelData.active ? modelData.focused ? 40 : 16 : 0
-            // 1 and not 0, enables the Row to remove the gap sooner
+
+            required property var modelData
+            Layout.alignment: Qt.AlignVCenter
             visible: implicitWidth > 1
-            // hide it before it's too thin
-            opacity: tagRoot.implicitWidth > 3
-            clip: true
+            opacity: implicitWidth > 3
+            implicitWidth: tagRoot.modelData.active ? textMetrics.width + 2 * 5 : 0
+            implicitHeight: textMetrics.height
+            TextMetrics {
+                id: textMetrics
+                font: tagText.font
+                text: tagText.text
+            }
+
+            Rectangle {
+                id: tagRect
+                color: tagRoot.modelData.urgent ? Matugen.system.error : tagRoot.modelData.focused ? Matugen.system.primary : Matugen.system.surface
+                radius: 4
+                implicitHeight: tagRoot.modelData.focused ? 20 : 16
+                implicitWidth: parent.width
+                anchors.centerIn: parent
+
+                border {
+                    pixelAligned: false
+                    color: tagRoot.modelData.focused ? "transparent" : Matugen.system.outline_variant
+                }
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 250
+                        easing.type: Easing.OutExpo
+                    }
+                }
+                Behavior on implicitHeight {
+                    NumberAnimation {
+                        duration: 150
+                        easing.type: Easing.OutExpo
+                    }
+                }
+            }
 
             StylizedText {
-                text: modelData.id
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+                id: tagText
+                width: parent.width
+                text: tagRoot.modelData.id
                 font.pointSize: 10
                 font.bold: true
-                color: modelData.urgent ? Matugen.system.on_error : modelData.focused ? Matugen.system.on_primary : Matugen.system.on_primary_container
-                opacity: tagRoot.implicitWidth > 3
+                horizontalAlignment: Text.AlignHCenter
+                color: tagRoot.modelData.urgent ? Matugen.system.on_error : tagRoot.modelData.focused ? Matugen.system.on_primary : Matugen.system.on_surface_variant
+                opacity: tagRect.implicitWidth > 3
+
                 Behavior on opacity {
                     NumberAnimation {
                         duration: 150
                         easing.type: Easing.OutExpo
                     }
                 }
-            Behavior on color {
-                ColorAnimation {
-                    duration: 250
-                    easing.type: Easing.OutExpo
-                }
-            }
-            }
-
-            Behavior on color {
-                ColorAnimation {
-                    duration: 250
-                    easing.type: Easing.OutExpo
-                }
-            }
-            Behavior on implicitHeight {
-                NumberAnimation {
-                    duration: 150
-                    easing.type: Easing.OutExpo
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 250
+                        easing.type: Easing.OutExpo
+                    }
                 }
             }
             Behavior on implicitWidth {

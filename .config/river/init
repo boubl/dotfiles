@@ -1,4 +1,4 @@
-#!/bin/fish
+#!/usr/bin/env fish
 
 # Emergency mapping in case something broke
 riverctl map normal Super+Shift E exit

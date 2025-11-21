@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.modules.bar
+import qs.modules.osd
 import qs.services.notifications
 import qs.utils
 
@@ -22,6 +23,7 @@ Scope {
     NotificationServer {
         id: nserver
         imageSupported: true
+        actionsSupported: true
         onNotification: notif => notif.tracked = true
     }
 
@@ -43,9 +45,12 @@ Scope {
                 model: nserver.trackedNotifications
                 NotificationBanner {
                     id: banner
+                    required property var modelData
                     notif: modelData
                 }
             }
         }
     }
+
+    VolumeOSD {}
 }

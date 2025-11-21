@@ -1,150 +1,386 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 import Quickshell.Services.Mpris
 
 import qs.utils
-import qs.utils.debug
 import qs.services.matugen
 
 Rectangle {
     id: root
 
     Layout.fillWidth: true
+    Layout.preferredHeight: childrenRect.height
     // height: 50
-    radius: 15
+    radius: 4
     color: Matugen.system.surface_container
-    clip: true
+    clip: false
 
-    RowLayout {
-        spacing: 15
-        anchors {
-            fill: parent
-            // left: parent.left
-            // right: parent.right
-            margins: parent.radius
-            verticalCenter: parent.verticalCenter
-        }
-        Rectangle {
-            id: albumArtBG
-            Layout.fillHeight: true
-            Layout.preferredWidth: height
-            Layout.alignment: Qt.AlignCenter
-            layer.enabled: true
-            layer.smooth: true
-            radius: 10
-            color: Matugen.system.secondary_container
-            Image {
-                id: albumArt
-                anchors.fill: parent
-                source: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackArtUrl : ""
-                fillMode: Image.PreserveAspectCrop
-                layer.enabled: true
-                layer.effect: MultiEffect {
-                    maskEnabled: true
-                    maskSource: albumArtBG
-                    maskThresholdMin: 0.5
-                    maskSpreadAtMin: 1.0
-                }
-            }
-        }
+    border {
+        pixelAligned: false
+        color: Matugen.system.outline_variant
+    }
+
+    ColumnLayout {
+        id: mainLayout
+        width: root.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        spacing: 0
         ColumnLayout {
-            id: columnRoot
+            id: innerLayout
             Layout.fillWidth: true
-            Layout.topMargin: 20
-            Layout.bottomMargin: 20
-            spacing: 3
-            clip: true
-            Item {
-                id: titleContainer
-                Layout.fillWidth: true
-                implicitHeight: title.implicitHeight
-                clip: true
-
-                StylizedText {
-                    id: title
-                    text: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackTitle : "No media playing"
-                    x: (columnRoot.width - title.contentWidth)
-                    font.pointSize: 14
-
-                    SequentialAnimation on x {
-                        loops: Animation.Infinite
-                        running: title.paintedWidth > columnRoot.width
-
-                        PauseAnimation {
-                            duration: 2000
-                        }
-                        PropertyAnimation {
-                            from: 0
-                            to: (columnRoot.width - title.contentWidth)
-                            duration: 4000
-                            easing.type: Easing.Linear
-                        }
-                        PauseAnimation {
-                            duration: 1000
-                        }
-                        PropertyAnimation {
-                            from: (columnRoot.width - title.contentWidth)
-                            to: 0
-                            duration: 4000
-                            easing.type: Easing.Linear
-                        }
-                    }
-                }
-            }
-            StylizedText {
-                text: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackArtist : ""
-                visible: Mpris.players.values.length > 0
-                font.pointSize: 12
-            }
-            Item {
-                Layout.fillHeight: true
-            }
+            Layout.margins: 8
             RowLayout {
                 Layout.fillWidth: true
+                Item {
+                    id: albumArtRoot
+                    Layout.preferredHeight: trackInfoColumn.height + 2 * 5
+                    Layout.preferredWidth: height
+                    Item {
+                        id: albumArtBackground
+                        anchors.fill: parent
+                        layer.enabled: true
+                        layer.smooth: true
+                        Rectangle {
+                            anchors.centerIn: parent
+                            implicitWidth: visible ? parent.width : albumArt.paintedWidth
+                            implicitHeight: visible ? parent.height : albumArt.paintedHeight
+                            radius: 4
+                            color: Matugen.system.secondary_container
+                        }
+                        visible: Mpris.players.values.length == 0 || Mpris.players.values[0].trackArtUrl == ""
+                    }
+                    Image {
+                        id: albumArt
+                        anchors.fill: parent
+                        source: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackArtUrl : ""
+                        fillMode: Image.PreserveAspectFit
+                        layer.enabled: true
+                        layer.effect: MultiEffect {
+                            maskEnabled: true
+                            maskSource: albumArtBackground
+                            maskThresholdMin: 0.5
+                            maskSpreadAtMin: 1.0
+                        }
+                    }
+                }
+                ColumnLayout {
+                    id: trackInfoColumn
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: titleText.height * 2
+                    spacing: 0
+                    Item {
+                        id: title
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: childrenRect.height
+                        clip: true
+                        StylizedText {
+                            id: titleText
+                            width: parent.width
+                            text: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackTitle : "No media playing"
+                            font.bold: true
+                            onTextChanged: {
+                                x = 0;
+                                if (titleText.paintedWidth > title.width)
+                                    titleAnimation.restart();
+                            }
+                            // elide: Text.ElideRight
+                            SequentialAnimation on x {
+                                id: titleAnimation
+                                loops: Animation.Infinite
+                                running: titleText.paintedWidth > title.width
+
+                                PauseAnimation {
+                                    duration: 2000
+                                }
+                                PropertyAnimation {
+                                    from: 0
+                                    to: (title.width - titleText.contentWidth)
+                                    duration: 4000
+                                    easing.type: Easing.Linear
+                                }
+                                PauseAnimation {
+                                    duration: 1000
+                                }
+                                PropertyAnimation {
+                                    from: (title.width - titleText.contentWidth)
+                                    to: 0
+                                    duration: 4000
+                                    easing.type: Easing.Linear
+                                }
+                            }
+                        }
+                        Rectangle {
+                            width: titleText.font.pointSize
+                            height: parent.height
+                            opacity: titleText.x < 0 ? 1 : 0
+                            Behavior on opacity {
+                                NumberAnimation {}
+                            }
+                            gradient: Gradient {
+                                orientation: Gradient.Horizontal
+                                GradientStop {
+                                    position: 0.0
+                                    color: Matugen.system.surface_container
+                                }
+                                GradientStop {
+                                    position: 1.0
+                                    color: "transparent"
+                                }
+                            }
+                        }
+                        Rectangle {
+                            width: titleText.font.pointSize
+                            height: parent.height
+                            anchors.right: parent.right
+                            opacity: titleText.x != title.width - titleText.contentWidth && titleText.paintedWidth > title.width ? 1 : 0
+                            Behavior on opacity {
+                                NumberAnimation {}
+                            }
+                            gradient: Gradient {
+                                orientation: Gradient.Horizontal
+                                GradientStop {
+                                    position: 0.0
+                                    color: "transparent"
+                                }
+                                GradientStop {
+                                    position: 1.0
+                                    color: Matugen.system.surface_container
+                                }
+                            }
+                        }
+                    }
+                    Item {
+                        id: artist
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: childrenRect.height
+                        visible: Mpris.players.values.length > 0
+                        clip: true
+                        StylizedText {
+                            id: artistText
+                            width: parent.width
+                            text: Mpris.players.values.length > 0 ? Mpris.players.values[0].trackArtist : ""
+                            onTextChanged: {
+                                x = 0;
+                                if (artistText.paintedWidth > artist.width)
+                                    artistAnimation.restart();
+                            }
+                            // elide: Text.ElideRight
+                            SequentialAnimation on x {
+                                id: artistAnimation
+                                loops: Animation.Infinite
+                                running: artistText.paintedWidth > artist.width
+
+                                PauseAnimation {
+                                    duration: 2000
+                                }
+                                PropertyAnimation {
+                                    from: 0
+                                    to: (artist.width - artistText.contentWidth)
+                                    duration: 4000
+                                    easing.type: Easing.Linear
+                                }
+                                PauseAnimation {
+                                    duration: 1000
+                                }
+                                PropertyAnimation {
+                                    from: (artist.width - artistText.contentWidth)
+                                    to: 0
+                                    duration: 4000
+                                    easing.type: Easing.Linear
+                                }
+                            }
+                        }
+                        Rectangle {
+                            width: artistText.font.pointSize
+                            height: parent.height
+                            opacity: artistText.x < 0 ? 1 : 0
+                            Behavior on opacity {
+                                NumberAnimation {}
+                            }
+                            gradient: Gradient {
+                                orientation: Gradient.Horizontal
+                                GradientStop {
+                                    position: 0.0
+                                    color: Matugen.system.surface_container
+                                }
+                                GradientStop {
+                                    position: 1.0
+                                    color: "transparent"
+                                }
+                            }
+                        }
+                        Rectangle {
+                            width: artistText.font.pointSize
+                            height: parent.height
+                            anchors.right: parent.right
+                            opacity: artistText.x != artist.width - artistText.contentWidth && artistText.paintedWidth > artist.width ? 1 : 0
+                            Behavior on opacity {
+                                NumberAnimation {}
+                            }
+                            gradient: Gradient {
+                                orientation: Gradient.Horizontal
+                                GradientStop {
+                                    position: 0.0
+                                    color: "transparent"
+                                }
+                                GradientStop {
+                                    position: 1.0
+                                    color: Matugen.system.surface_container
+                                }
+                            }
+                        }
+                    }
+                }
+                RowLayout {
+                    id: mediaButtons
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter
+                    spacing: 10
+                    property int fontSize: 14
+                    Rectangle {
+                        Layout.preferredWidth: childrenRect.width
+                        Layout.preferredHeight: childrenRect.height
+                        color: Matugen.system.surface_container_high
+                        radius: 4
+
+                        border {
+                            color: Matugen.system.outline_variant
+                        }
+
+                        ColumnLayout {
+                            Text {
+                                Layout.margins: 4
+                                color: Matugen.system.on_surface
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: Lucide.skip_back
+                                font.family: "lucide"
+                                font.pointSize: mediaButtons.fontSize
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: Mpris.players.values[0].previous()
+                                }
+                            }
+                        }
+                    }
+                    Rectangle {
+                        Layout.preferredWidth: childrenRect.width
+                        Layout.preferredHeight: childrenRect.height
+                        color: Matugen.system.surface_container_high
+                        radius: 4
+
+                        border {
+                            color: Matugen.system.outline_variant
+                        }
+
+                        ColumnLayout {
+                            Text {
+                                Layout.margins: 4
+                                color: Matugen.system.on_surface
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: Mpris.players.values.length > 0 && Mpris.players.values[0].playbackState == MprisPlaybackState.Playing ? Lucide.pause : Lucide.play
+                                font.family: "lucide"
+                                font.pointSize: mediaButtons.fontSize
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: Mpris.players.values[0].togglePlaying()
+                                }
+                            }
+                        }
+                    }
+                    Rectangle {
+                        Layout.preferredWidth: childrenRect.width
+                        Layout.preferredHeight: childrenRect.height
+                        color: Matugen.system.surface_container_high
+                        radius: 4
+
+                        border {
+                            color: Matugen.system.outline_variant
+                        }
+
+                        ColumnLayout {
+                            Text {
+                                Layout.margins: 4
+                                color: Matugen.system.on_surface
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: Lucide.skip_forward
+                                font.family: "lucide"
+                                font.pointSize: mediaButtons.fontSize
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: Mpris.players.values[0].next()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            RowLayout {
+                id: slider
+                Layout.fillWidth: true
+                Layout.leftMargin: 5
+                Layout.rightMargin: 5
                 Layout.alignment: Qt.AlignHCenter
-                spacing: 15
-                Text {
-                    color: Matugen.system.on_surface
-                    Layout.preferredWidth: 30
-                    Layout.preferredHeight: 30
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    text: ""
-                    font.family: "Symbols Nerd Font"
-                    font.pointSize: 18
-                    MouseArea {
+                property bool connected: Mpris.players.values.length > 0
+                property MprisPlayer player: connected ? Mpris.players.values[0] : null
+                function asTime(secs) {
+                    let d = new Date(0); // epoch start so date doesn't matter
+                    d.setSeconds(secs);
+                    return d;
+                }
+                FrameAnimation {
+                    // only emit the signal when the position is actually changing.
+                    running: slider.connected && slider.player.playbackState == MprisPlaybackState.Playing
+                    // emit the positionChanged signal every frame.
+                    onTriggered: slider.player.positionChanged()
+                }
+                StylizedText {
+                    text: slider.connected ? Qt.formatTime(slider.asTime(slider.player.position), "m:ss") : "00:00"
+                    elide: Text.ElideRight
+                }
+                Item {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 10
+                    Rectangle {
+                        id: sliderBackground
                         anchors.fill: parent
-                        onClicked: Mpris.players.values[0].previous()
+                        color: Matugen.system.surface_container_highest
+                        radius: 3
+                        layer.enabled: true
+                        layer.smooth: true
+                        border {
+                            color: Matugen.system.outline_variant
+                        }
+                    }
+                    Item {
+                        anchors.fill: parent
+                        Rectangle {
+                            implicitWidth: slider.connected ? parent.width * (slider.player.position / slider.player.length) : 0
+                            implicitHeight: parent.height
+                            color: Matugen.system.primary
+                        }
+                        layer.enabled: true
+                        layer.smooth: true
+                        layer.effect: MultiEffect {
+                            maskEnabled: true
+                            maskSource: sliderBackground
+                            maskThresholdMin: 0.5
+                            maskSpreadAtMin: 1.0
+                        }
                     }
                 }
-                Text {
-                    color: Matugen.system.on_surface
-                    Layout.preferredWidth: 30
-                    Layout.preferredHeight: 30
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    text: Mpris.players.values.length > 0 && Mpris.players.values[0].playbackState == MprisPlaybackState.Playing ? "" : ""
-                    font.family: "Symbols Nerd Font"
-                    font.pointSize: 18
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: Mpris.players.values[0].togglePlaying()
-                    }
-                }
-                Text {
-                    color: Matugen.system.on_surface
-                    Layout.preferredWidth: 30
-                    Layout.preferredHeight: 30
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    text: ""
-                    font.family: "Symbols Nerd Font"
-                    font.pointSize: 18
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: Mpris.players.values[0].next()
-                    }
+                StylizedText {
+                    text: slider.connected ? Qt.formatTime(slider.asTime(slider.player.length - slider.player.position), "-m:ss") : "00:00"
+                    elide: Text.ElideRight
                 }
             }
         }

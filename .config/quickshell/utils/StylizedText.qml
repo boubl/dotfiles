@@ -8,6 +8,6 @@ Text {
     renderType: Text.NativeRendering
     font {
         family: "Host Grotesk"
-        pointSize: 12
+        pointSize: 11
     }
 }

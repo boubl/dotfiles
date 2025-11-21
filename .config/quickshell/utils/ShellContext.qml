@@ -25,7 +25,7 @@ Scope {
         }
     }
     onDarkModeChanged: {
-        darkmanSet.command[2] = root.darkMode ? "dark" : "light"
+        darkmanSet.command[2] = root.darkMode ? "dark" : "light";
         darkmanSet.startDetached();
     }
 }

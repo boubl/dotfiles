@@ -71,6 +71,10 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 
 vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
+vim.opt.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -144,7 +148,7 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup {
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  -- 'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -405,8 +409,20 @@ require('lazy').setup {
       })
       vim.lsp.enable 'zls'
 
+      vim.lsp.config('kotlin_language_server', {})
+      vim.lsp.enable 'kotlin_language_server'
+
       vim.lsp.config('qmlls', {})
       vim.lsp.enable 'qmlls'
+
+      vim.lsp.config('phpactor', {
+        on_attach = on_attach,
+        init_options = {
+            ["language_server_phpstan.enabled"] = false,
+            ["language_server_psalm.enabled"] = false,
+        }
+      })
+      vim.lsp.enable 'phpactor'
 
       vim.lsp.config('gopls', {})
       vim.lsp.enable 'gopls'
@@ -671,14 +687,19 @@ require('lazy').setup {
   },
 
   {
-    'folke/tokyonight.nvim',
-    lazy = false,
-    priority = 1000,
-    opts = {},
-
+    "olimorris/onedarkpro.nvim",
+    priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
-      vim.cmd.colorscheme 'tokyonight-night'
-    end,
+      require("onedarkpro").setup {
+        options = {
+          cursorline = true,
+          highlight_inactive_windows = true,
+        }
+      }
+      -- Enable theme
+      vim.g.termguicolors=true
+      vim.cmd("colorscheme onedark_vivid")
+    end
   },
 
   -- Highlight todo, notes, etc in comments

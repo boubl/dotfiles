@@ -1,17 +1,20 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Effects
+import QtQuick.Layouts
 import Quickshell.Services.UPower
 
 import qs.services.matugen
 import qs.utils
-import qs.utils.debug
 
 Item {
-    id: container
+    id: root
     width: 40
     height: 20
 
     property real level: UPower.displayDevice.percentage
+    property bool charging: UPower.displayDevice.state == UPowerDeviceState.Charging
 
     // Animate the battery for debugging/testing
     // SequentialAnimation {
@@ -36,64 +39,53 @@ Item {
     // }
     Rectangle {
         id: bar
-        width: container.width
-        height: container.height
+        width: root.width
+        height: root.height
         color: Matugen.system.primary_container
         layer.enabled: true
         layer.smooth: true
-        radius: 7
+        radius: 4
         Rectangle {
             anchors.left: parent.left
             anchors.top: parent.top
-            width: parent.width * container.level
+            width: parent.width * root.level
             height: parent.height
             color: Matugen.system.primary
         }
+        RowLayout {
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: parent.height
+            spacing: 1
+            StylizedText {
+                Layout.alignment: Qt.AlignCenter
+                text: Math.floor(root.level * 100)
+                font.bold: true
+                color: Matugen.system.background
+            }
+            Text {
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                text: "󱐋"
+                font.family: "Symbols Nerd Font"
+                font.pointSize: 11
+                color: Matugen.system.background
+                visible: root.charging
+            }
+        }
         layer.effect: MultiEffect {
             maskEnabled: true
-            maskSource: maskBig
+            maskSource: rectMask
             maskThresholdMin: 0.5
             maskSpreadAtMin: 1.0
             layer.enabled: true
             layer.smooth: true
-            layer.effect: MultiEffect {
-                maskEnabled: true
-                maskInverted: true
-                maskSource: textMask
-                maskThresholdMin: 0.5
-                maskSpreadAtMin: 1.0
-            }
-        }
-    }
-    Item {
-        id: textMask
-        anchors.fill: bar
-        layer.enabled: true
-        layer.smooth: true
-        visible: false
-        Row {
-            anchors.centerIn: parent
-            StylizedText {
-                anchors.verticalCenter: parent.verticalCenter
-                text: Math.floor(container.level * 100)
-                color: Matugen.system.on_primary
-                font.pointSize: 12
-            }
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
-                text: Lucide.zap
-                font.family: "lucide"
-                font.pointSize: 7
-                visible: UPower.displayDevice.state == UPowerDeviceState.Charging || UPower.displayDevice.state == UPowerDeviceState.FullyCharged
-            }
         }
     }
 
-    // Masks
+    // Mask
     Item {
-        id: maskBig
-        width: container.width
-        height: container.height
+        id: rectMask
+        width: root.width
+        height: root.height
         visible: false
         layer.enabled: true
         layer.smooth: true

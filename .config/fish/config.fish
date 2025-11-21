@@ -17,6 +17,3 @@ if status is-interactive
 
     fish_vi_key_bindings
 end
-
-# Homebrew settings
-set -x HOMEBREW_NO_ENV_HINTS 1

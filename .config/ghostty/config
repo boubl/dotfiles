@@ -5,7 +5,8 @@ font-family = "Symbols Nerd Font Mono"
 # No ligatures
 # font-feature = -calt
 
-custom-shader = "./shaders/cursor_smear.glsl"
+# custom-shader = "./shaders/cursor_smear.glsl"
+custom-shader = "./ghostty-cursor-shaders/cursor_warp.glsl"
 custom-shader-animation = true
 
 quit-after-last-window-closed = false
@@ -14,5 +15,5 @@ quit-after-last-window-closed = false
 macos-option-as-alt = left
 keybind = global:cmd+\=toggle_quick_terminal
 
-theme = light:TokyoNight Day,dark:TokyoNight Night
+theme = onedarkpro_onedark_vivid
 window-decoration = none
