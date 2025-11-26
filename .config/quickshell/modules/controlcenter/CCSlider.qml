@@ -16,18 +16,11 @@ Rectangle {
     signal clicked
 
     Layout.fillWidth: true
-    // Layout.preferredHeight: 40
-    Layout.fillHeight: true
     Layout.minimumHeight: mainLayout.height + mainLayout.Layout.margins * 2
     Layout.minimumWidth: mainLayout.width + mainLayout.Layout.margins * 2
 
     radius: 4
     color: Matugen.system.surface_container
-
-    border {
-        pixelAligned: false
-        color: Matugen.system.outline_variant
-    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -53,9 +46,6 @@ Rectangle {
                     radius: 3
                     layer.enabled: true
                     layer.smooth: true
-                    border {
-                        color: Matugen.system.outline_variant
-                    }
                 }
                 Item {
                     anchors.fill: parent

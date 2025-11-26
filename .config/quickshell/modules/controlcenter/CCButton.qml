@@ -12,9 +12,6 @@ Rectangle {
 
     signal clicked
 
-    Layout.fillWidth: true
-    // Layout.preferredHeight: 40
-    Layout.fillHeight: true
     Layout.minimumHeight: mainLayout.height + mainLayout.Layout.margins * 2
     Layout.minimumWidth: mainLayout.width + mainLayout.Layout.margins * 2
 

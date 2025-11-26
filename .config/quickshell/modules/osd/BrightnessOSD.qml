@@ -5,20 +5,16 @@ import QtQuick.Layouts
 import Quickshell
 
 import qs.modules.controlcenter
-import qs.services.volume
+import qs.services
 import qs.utils
 
 Scope {
     id: root
 
     Connections {
-        target: VolumeTracker
+        target: Brightness
 
-        function onMutedChanged() {
-            root.shouldShowOsd = true && !ShellContext.isControlCenterOpen;
-            hideTimer.restart();
-        }
-        function onVolumeChanged() {
+        function onNaturalChanged() {
             root.shouldShowOsd = true && !ShellContext.isControlCenterOpen;
             hideTimer.restart();
         }
@@ -64,9 +60,8 @@ Scope {
 
                 CCSlider {
                     Layout.fillWidth: true
-                    icon: VolumeTracker.muted ? Lucide.volume_x : Lucide.volume_2
-                    value: VolumeTracker.volume
-                    disabled: VolumeTracker.muted
+                    icon: Lucide.sun
+                    value: Brightness.natural
                 }
                 SequentialAnimation on opacity {
                     id: opacityAnim

@@ -53,4 +53,5 @@ Scope {
     }
 
     VolumeOSD {}
+    BrightnessOSD {}
 }

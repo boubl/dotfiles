@@ -2,12 +2,15 @@ pragma ComponentBehavior: Bound
 
 import Quickshell
 import Quickshell.Io
+import Quickshell.Services.UPower
 import QtQuick
 import QtQuick.Layouts
 
 import qs.utils
+import qs.utils.debug
 import qs.services.matugen
 import qs.services.volume
+import qs.services
 
 PanelWindow {
     id: root
@@ -24,7 +27,7 @@ PanelWindow {
         right: true
     }
     color: "transparent"
-    implicitWidth: grid.width + grid.Layout.margins * 2
+    implicitWidth: 350// grid.width + grid.Layout.margins * 2
     implicitHeight: grid.height + grid.Layout.margins * 2
 
     Rectangle {
@@ -43,11 +46,12 @@ PanelWindow {
         anchors.fill: parent
         GridLayout {
             id: grid
+            DebugRectangle {}
+            Layout.fillWidth: true
+            Layout.maximumWidth: parent.width - Layout.margins * 2
             Layout.margins: 8
             columns: 6
-            columnSpacing: 5
-            uniformCellWidths: true
-            uniformCellHeights: false
+            // uniformCellWidths: true
 
             CCSwitch {
                 Layout.columnSpan: 3
@@ -103,7 +107,12 @@ PanelWindow {
             CCSlider {
                 Layout.columnSpan: 3
                 icon: Lucide.sun
-                value: VolumeTracker.volume
+                value: Brightness.natural
+            }
+            CCSlider {
+                Layout.columnSpan: 3
+                icon: Lucide.battery
+                value: UPower.displayDevice.percentage
             }
             CCButton {
                 icon: Lucide.wallpaper
@@ -114,6 +123,7 @@ PanelWindow {
                 onClicked: Matugen.updateColors()
             }
             CCPlayer {
+                // Layout.fillWidth: true
                 Layout.columnSpan: 6
             }
         }

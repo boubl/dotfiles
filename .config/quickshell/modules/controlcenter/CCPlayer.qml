@@ -11,17 +11,12 @@ import qs.services.matugen
 Rectangle {
     id: root
 
-    Layout.fillWidth: true
-    Layout.preferredHeight: childrenRect.height
+    Layout.minimumHeight: innerLayout.height + innerLayout.Layout.margins * 2
+    Layout.minimumWidth: innerLayout.width + innerLayout.Layout.margins * 2
     // height: 50
     radius: 4
     color: Matugen.system.surface_container
     clip: false
-
-    border {
-        pixelAligned: false
-        color: Matugen.system.outline_variant
-    }
 
     ColumnLayout {
         id: mainLayout
@@ -70,7 +65,7 @@ Rectangle {
                 }
                 ColumnLayout {
                     id: trackInfoColumn
-                    Layout.fillWidth: true
+                    Layout.minimumWidth: defaultMetrics.boundingRect.width
                     Layout.minimumHeight: titleText.height * 2
                     spacing: 0
                     Item {
@@ -79,6 +74,11 @@ Rectangle {
                         Layout.preferredWidth: parent.width
                         Layout.preferredHeight: childrenRect.height
                         clip: true
+                        TextMetrics {
+                            id: defaultMetrics
+                            font: titleText.font
+                            text: "No media playing"
+                        }
                         StylizedText {
                             id: titleText
                             width: parent.width
@@ -98,19 +98,19 @@ Rectangle {
                                 PauseAnimation {
                                     duration: 2000
                                 }
-                                PropertyAnimation {
+                                SmoothedAnimation {
                                     from: 0
                                     to: (title.width - titleText.contentWidth)
-                                    duration: 4000
+                                    velocity: 50
                                     easing.type: Easing.Linear
                                 }
                                 PauseAnimation {
                                     duration: 1000
                                 }
-                                PropertyAnimation {
+                                SmoothedAnimation {
                                     from: (title.width - titleText.contentWidth)
                                     to: 0
-                                    duration: 4000
+                                    velocity: 50
                                     easing.type: Easing.Linear
                                 }
                             }
@@ -180,19 +180,19 @@ Rectangle {
                                 PauseAnimation {
                                     duration: 2000
                                 }
-                                PropertyAnimation {
+                                SmoothedAnimation {
                                     from: 0
                                     to: (artist.width - artistText.contentWidth)
-                                    duration: 4000
+                                    velocity: 50
                                     easing.type: Easing.Linear
                                 }
                                 PauseAnimation {
                                     duration: 1000
                                 }
-                                PropertyAnimation {
+                                SmoothedAnimation {
                                     from: (artist.width - artistText.contentWidth)
                                     to: 0
-                                    duration: 4000
+                                    velocity: 50
                                     easing.type: Easing.Linear
                                 }
                             }
@@ -247,17 +247,13 @@ Rectangle {
                     Rectangle {
                         Layout.preferredWidth: childrenRect.width
                         Layout.preferredHeight: childrenRect.height
-                        color: Matugen.system.surface_container_high
+                        color: Matugen.system.secondary_container
                         radius: 4
-
-                        border {
-                            color: Matugen.system.outline_variant
-                        }
 
                         ColumnLayout {
                             Text {
                                 Layout.margins: 4
-                                color: Matugen.system.on_surface
+                                color: Matugen.system.on_secondary_container
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 text: Lucide.skip_back
@@ -273,17 +269,13 @@ Rectangle {
                     Rectangle {
                         Layout.preferredWidth: childrenRect.width
                         Layout.preferredHeight: childrenRect.height
-                        color: Matugen.system.surface_container_high
+                        color: Matugen.system.secondary_container
                         radius: 4
-
-                        border {
-                            color: Matugen.system.outline_variant
-                        }
 
                         ColumnLayout {
                             Text {
                                 Layout.margins: 4
-                                color: Matugen.system.on_surface
+                                color: Matugen.system.on_secondary_container
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 text: Mpris.players.values.length > 0 && Mpris.players.values[0].playbackState == MprisPlaybackState.Playing ? Lucide.pause : Lucide.play
@@ -299,17 +291,13 @@ Rectangle {
                     Rectangle {
                         Layout.preferredWidth: childrenRect.width
                         Layout.preferredHeight: childrenRect.height
-                        color: Matugen.system.surface_container_high
+                        color: Matugen.system.secondary_container
                         radius: 4
-
-                        border {
-                            color: Matugen.system.outline_variant
-                        }
 
                         ColumnLayout {
                             Text {
                                 Layout.margins: 4
-                                color: Matugen.system.on_surface
+                                color: Matugen.system.on_secondary_container
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 text: Lucide.skip_forward
@@ -357,9 +345,6 @@ Rectangle {
                         radius: 3
                         layer.enabled: true
                         layer.smooth: true
-                        border {
-                            color: Matugen.system.outline_variant
-                        }
                     }
                     Item {
                         anchors.fill: parent
