@@ -12,8 +12,10 @@ Rectangle {
 
     signal clicked(bool checked)
 
-    Layout.minimumHeight: mainLayout.height + mainLayout.Layout.margins * 2
-    Layout.minimumWidth: mainLayout.width + mainLayout.Layout.margins * 2
+    implicitHeight: mainLayout.implicitHeight + mainLayout.Layout.margins * 2
+    implicitWidth: mainLayout.implicitWidth + mainLayout.Layout.margins * 2
+    Layout.minimumHeight: Layout.preferredHeight
+    Layout.minimumWidth: Layout.preferredWidth
 
     radius: 4
     color: root.checked ? Matugen.system.primary : Matugen.system.primary_container

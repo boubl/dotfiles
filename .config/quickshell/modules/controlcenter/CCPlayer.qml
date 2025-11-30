@@ -11,8 +11,10 @@ import qs.services.matugen
 Rectangle {
     id: root
 
-    Layout.minimumHeight: innerLayout.height + innerLayout.Layout.margins * 2
-    Layout.minimumWidth: innerLayout.width + innerLayout.Layout.margins * 2
+    implicitHeight: innerLayout.implicitHeight + innerLayout.Layout.margins * 2
+    implicitWidth: innerLayout.implicitWidth + innerLayout.Layout.margins * 2
+    Layout.minimumHeight: Layout.preferredHeight
+    Layout.minimumWidth: Layout.preferredWidth
     // height: 50
     radius: 4
     color: Matugen.system.surface_container

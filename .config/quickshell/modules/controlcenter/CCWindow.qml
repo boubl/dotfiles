@@ -27,8 +27,8 @@ PanelWindow {
         right: true
     }
     color: "transparent"
-    implicitWidth: 350// grid.width + grid.Layout.margins * 2
-    implicitHeight: grid.height + grid.Layout.margins * 2
+    implicitWidth: 350//grid.implicitWidth + grid.Layout.margins * 2
+    implicitHeight: grid.implicitHeight + grid.Layout.margins * 2
 
     Rectangle {
         id: rectRoot
@@ -46,14 +46,11 @@ PanelWindow {
         anchors.fill: parent
         GridLayout {
             id: grid
-            DebugRectangle {}
-            Layout.fillWidth: true
-            Layout.maximumWidth: parent.width - Layout.margins * 2
             Layout.margins: 8
             columns: 6
-            // uniformCellWidths: true
 
             CCSwitch {
+                Layout.fillWidth: true
                 Layout.columnSpan: 3
                 icon: Lucide.moon
                 text: "Do not disturb"
@@ -61,6 +58,7 @@ PanelWindow {
                 onClicked: checked => ShellContext.dndMode = checked
             }
             CCButton {
+                Layout.fillWidth: true
                 icon: Lucide.lock
                 Process {
                     id: lockCommand
@@ -69,6 +67,7 @@ PanelWindow {
                 onClicked: lockCommand.startDetached()
             }
             CCButton {
+                Layout.fillWidth: true
                 icon: Lucide.rotate_ccw
                 Process {
                     id: restartCommand
@@ -77,6 +76,7 @@ PanelWindow {
                 onClicked: restartCommand.startDetached()
             }
             CCButton {
+                Layout.fillWidth: true
                 icon: Lucide.power
                 Process {
                     id: poweroffCommand
@@ -85,6 +85,7 @@ PanelWindow {
                 onClicked: poweroffCommand.startDetached()
             }
             CCSwitch {
+                Layout.fillWidth: true
                 Layout.columnSpan: 3
                 icon: Lucide.sun_moon
                 text: "Dark mode"
@@ -92,6 +93,7 @@ PanelWindow {
                 onClicked: checked => ShellContext.darkMode = checked
             }
             CCSwitch {
+                Layout.fillWidth: true
                 Layout.columnSpan: 3
                 icon: Lucide.coffee
                 text: "Keep me awake"
@@ -99,31 +101,36 @@ PanelWindow {
                 onClicked: checked => ShellContext.caffeinated = checked
             }
             CCSlider {
+                Layout.fillWidth: true
                 Layout.columnSpan: 3
                 icon: VolumeTracker.muted ? Lucide.volume_x : Lucide.volume_2
                 value: VolumeTracker.volume
                 disabled: VolumeTracker.muted
             }
             CCSlider {
+                Layout.fillWidth: true
                 Layout.columnSpan: 3
                 icon: Lucide.sun
                 value: Brightness.natural
             }
             CCSlider {
+                Layout.fillWidth: true
                 Layout.columnSpan: 3
                 icon: Lucide.battery
                 value: UPower.displayDevice.percentage
             }
             CCButton {
+                Layout.fillWidth: true
                 icon: Lucide.wallpaper
                 onClicked: ShellContext.wallpaper = true
             }
             CCButton {
+                Layout.fillWidth: true
                 icon: Lucide.refrigerator
                 onClicked: Matugen.updateColors()
             }
             CCPlayer {
-                // Layout.fillWidth: true
+                Layout.fillWidth: true
                 Layout.columnSpan: 6
             }
         }

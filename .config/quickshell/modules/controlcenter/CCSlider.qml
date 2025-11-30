@@ -16,8 +16,10 @@ Rectangle {
     signal clicked
 
     Layout.fillWidth: true
-    Layout.minimumHeight: mainLayout.height + mainLayout.Layout.margins * 2
-    Layout.minimumWidth: mainLayout.width + mainLayout.Layout.margins * 2
+    implicitHeight: mainLayout.implicitHeight + mainLayout.Layout.margins * 2
+    implicitWidth: mainLayout.implicitWidth + mainLayout.Layout.margins * 2
+    Layout.minimumHeight: Layout.preferredHeight
+    Layout.minimumWidth: Layout.preferredWidth
 
     radius: 4
     color: Matugen.system.surface_container
